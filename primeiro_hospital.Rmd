@@ -1,0 +1,179 @@
+---
+title: "Questionário Hospitalar sobre Cultura de Segurança do Paciente - HSOPSC
+  versão 2.0"
+author: "Thais Pereira"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+## pacotes 
+
+library("tidyverse")
+library("readxl")
+library('googlesheets4')
+library("janitor")
+library ("abjData")
+library("geobr")
+library("dplyr")
+library("tidyr")
+library("purrr")
+
+
+```
+
+
+
+```{r}
+
+
+dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 1) 
+
+```
+
+
+
+```{r}
+
+
+dados_respondentes <- dados %>% select(-2:-6) %>% mutate(cargo = paste(Enfermagem, Medicina, `Outra Profissão de Saúde`, 
+                                                 `Supervisor, Gerente, Líder de equipe/clínica, Alta liderança`,
+                                                 `Apoio`,`Outro, por favor especifique:`)) %>% 
+  mutate(cargo = gsub("\\bNA\\b", "", cargo)) %>% 
+mutate(cargo = paste(`Múltiplas Unidades/Nenhuma Unidade específica`,
+                     `Unidades Clínicas/Cirúrgicas`,
+                     `Unidades de Cuidados Especializados`,
+                     `Serviços Cirúrgicos`,
+                     `Serviços Clínicos`, 
+                     `Administração/Gestão`,
+                     `Serviços de Apoio`,
+                     `Outro, por favor especifique:`))  %>% 
+mutate(area = gsub("\\bNA\\b", "", area)) %>% 
+select(-3:-8, -10:-17) %>% 
+select(1, 2, 44, 3, 45) %>% 
+rename(cargo_resumido = `Qual é o seu cargo nesse hospital? Selecione UMA opção.` ,
+       area_resumida = `Pense na sua UNIDADE como a área de trabalho, departamento/serviço ou área clínica do hospital onde você passa a maior parte do seu tempo de trabalho. Qual é a sua unidade ou área de trabal...` )
+  
+
+
+```
+
+
+```{r}
+
+dados_1 <- dados %>% janitor::clean_names() %>% select(-2:-22) %>%  names()
+
+colunas <- c("nesta_unidade_trabalhamos_juntos_como_uma_equipe_integrada", "nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho", "os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente", "esta_unidade_revisa_regularmente_os_processos_de_trabalho_para_determinar_se_sao_necessarias_mudancas_para_melhorar_a", "esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario",  "nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles", 
+"quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema", "durante_periodos_de_sobrecarga_de_trabalho_os_profissionais_desta_unidade_ajudam_uns_aos_outros", "ha_problema_com_comportamento_desrespeitoso_por_parte_daqueles_que_trabalham_nesta_unidade", "quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos", "o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente", "nesta_unidade_as_mudancas_para_melhorar_a_seguranca_do_paciente_sao_avaliadas_para_verificar_se_elas_estao_funcionando_bem",  "nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente", "esta_unidade_permite_que_os_mesmos_continuem_ocorrendo_problemas_de_seguranca_do_paciente", 
+"meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente", "meu_supervisor_gerente_ou_chefe_de_equipe_clinica_quer_que_trabalhemos_mais_rapido_nos_horarios_de_demanda_intensa_de_trabalho_mesmo_que_isso_implique_em_pular_etapas", "meu_supervisor_gerente_ou_chefe_de_equipe_clinica_adota_medidas_para_resolver_as_questoes_de_seguranca_do_paciente_que_lhe_sao_apresentadas", "as_acoes_da_gestao_do_hospital_demonstram_que_a_seguranca_do_paciente_tem_alta_prioridade", 
+"a_gestao_do_hospital_fornece_recursos_adequados_para_melhorar_a_seguranca_do_paciente", 
+"a_gestao_do_hospital_parece_ter_interesse_na_seguranca_do_paciente_somente_apos_a_ocorrencia_de_um_evento_adverso", 
+"quando_pacientes_sao_transferidos_de_uma_unidade_para_outra_informacoes_importantes_sobre_o_seu_cuidado_sao_frequentemente_perdidas", 
+"durante_as_mudancas_de_turno_plantao_informacoes_importantes_sobre_o_cuidado_do_paciente_frequentemente_sao_omitidas", 
+"durante_as_mudancas_de_turno_plantao_ha_tempo_suficiente_para_trocar_todas_as_informacoes_importantes_para_o_cuidado_do_paciente")
+
+colunas_2 <- c("somos_informados_sobre_os_erros_incidentes_de_seguranca_que_acontecem_nesta_unidade", 
+               "quando_acontecem_erros_incidentes_de_seguranca_nessa_unidade_discutimos_maneiras_de_evitar_que_voltem_a_acontecer", "nesta_unidade_somos_informados_sobre_as_mudancas_realizadas_com_base_nos_relatorios_de_notificacao_de_incidentes", 
+"nesta_unidade_os_profissionais_se_falam_abertamente_quando_veem_algo_que_pode_afetar_negativamente_o_cuidado_do_paciente", 
+"quando_os_profissionais_desta_unidade_veem_alguem_com_mais_autoridade_fazendo_algo_inseguro_para_os_pacientes_eles_falam_abertamente",
+"quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente", 
+"nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo", 
+"quando_um_incidente_e_detectado_e_corrigido_antes_de_atingir_o_paciente_com_que_frequencia_ele_e_notificado",
+"quando_um_incidente_atinge_o_paciente_e_poderia_ter_lhe_causado_dano_mas_nao_lhe_causou_com_que_frequencia_ele_e_notificado")
+
+
+dados_1  %>% 
+mutate(avaliacao = case_when(avaliacao == "Ruim" ~ 1, 
+                             avaliacao == "Razoável" ~ 2,
+                             avaliacao == "Boa" ~ 3,
+                             avaliacao == "Muito boa" ~ 4,
+                             avaliacao == "Excelente" ~ 5)) %>% 
+mutate(across(all_of(colunas), ~case_when(
+         . == "Discordo Totalmente" ~ 1, 
+         . ==  "Discordo" ~ 2, 
+         . ==  "Não concordo nem discordo" ~ 3,
+         . ==  "Concordo" ~ 4,
+         . ==  "Concordo Totalmente" ~ 5,
+         . ==  "Não se aplica ou não sei" ~ 9,
+           ))) %>% 
+mutate(across(all_of(colunas_2), ~case_when(
+         . == "Nunca" ~ 1, 
+         . ==  "Raramente" ~ 2, 
+         . ==  "Às vezes" ~ 3,
+         . ==  "Quase sempre" ~ 4,
+         . ==  "Sempre" ~ 5,
+         . ==  "Não se aplica ou não sei" ~ 9,
+           )))
+
+
+```
+
+
+```{r}
+
+dados_respondentes %>% mutate(cargo = gsub("\\s+", "", cargo)) %>% 
+  select(ID, cargo, area) %>% 
+  mutate(cargo = case_when(cargo == "Enfermeiro" ~ 1, 
+                           cargo == "Técnico de Enfermagem" ~ 2, 
+                           cargo == "Auxiliar de Enfermagem" ~ 3,
+                           cargo == "Residente de Enfermagem" ~ 4,
+                           cargo == "Estagiário de Enfermagem (Graduação)" ~ 5,
+                           cargo == "Médico" ~ 6,
+                           cargo == "Médico Hospitalista" ~ 7,
+                           cargo == "Residente de Medicina" ~ 8,
+                           cargo == "Interno de Medicina" ~ 9,
+                           cargo == "Nutricionista" ~ 10,
+                           cargo == "Farmacêutico, Técnico ou Auxiliar de Farmácia" ~ 11,
+                           cargo == "Fisioterapeuta, Terapeuta Ocupacional ou Fonoaudiólogo" ~ 12,
+                           cargo == "Psicólogo" ~ 13,
+                           cargo == "Psicóloga" ~ 13,
+                           cargo == "Bioquímico" ~ 14,
+                           cargo == "Assistente Social" ~ 15,
+                           cargo == "Dentista" ~ 16,
+                           cargo == "Técnico (por exemplo, de Laboratório, Rx, Eletrocardiograma)." ~ 17,
+                           cargo == "Supervisor, Gerente de Departamento, Chefe de equipe/clínica, Administrador, Diretor" ~ 18,
+                           cargo == "Superintendente, Diretor Geral, Diretor Presidente" ~ 19,
+                           cargo == "Hotelaria, Manutenção e Infraestrutura" ~ 20,
+                           cargo == "Serviço de Nutrição e Dietética" ~ 21,
+                           cargo == "Serviço de Limpeza" ~ 22,
+                           cargo == "Tecnologia da Informação, Serviço de Informações em Saúde, Informática Médica" ~ 23,
+                           cargo == "Segurança" ~ 24,
+                           cargo == "Transporte" ~ 25,
+                           cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ 26,
+                           cargo == "Outro, por favor especifique:" ~ 27,
+                           is.na(cargo) ~ 28)) %>% 
+  mutate(cargo = coalesce(cargo, 29))
+  
+  
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
