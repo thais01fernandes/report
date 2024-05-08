@@ -35,6 +35,10 @@ library("purrr")
 
 dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 1) 
 
+dados %>% 
+  select(`Outro, por favor especifique:`) %>% 
+  filter(!is.na(`Outro, por favor especifique:`))
+
 ```
 
 
@@ -117,7 +121,7 @@ mutate(across(all_of(colunas_2), ~case_when(
 
 ```{r}
 
-dados_respondentes %>% mutate(cargo = gsub("\\s+", "", cargo)) %>% 
+dados_respondentes %>% mutate(cargo = gsub("\\s+", "", cargo)) %>% distinct(cargo) %>% pull()
   select(ID, cargo, area) %>% 
   mutate(cargo = case_when(cargo == "Enfermeiro" ~ 1, 
                            cargo == "Técnico de Enfermagem" ~ 2, 
@@ -148,7 +152,9 @@ dados_respondentes %>% mutate(cargo = gsub("\\s+", "", cargo)) %>%
                            cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ 26,
                            cargo == "Outro, por favor especifique:" ~ 27,
                            is.na(cargo) ~ 28)) %>% 
-  mutate(cargo = coalesce(cargo, 29))
+  mutate(cargo = coalesce(cargo, 29)) %>% 
+  group_by(cargo) %>% 
+  tally()
   
   
 
