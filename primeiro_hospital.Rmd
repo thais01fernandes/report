@@ -35,10 +35,6 @@ library("purrr")
 
 dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 1) 
 
-dados %>% 
-  select(`Outro, por favor especifique:`) %>% 
-  filter(!is.na(`Outro, por favor especifique:`))
-
 ```
 
 
@@ -46,32 +42,98 @@ dados %>%
 ```{r}
 
 
-dados_respondentes <- dados %>% select(-2:-6) %>% mutate(cargo = paste(Enfermagem, Medicina, `Outra Profissão de Saúde`, 
-                                                 `Supervisor, Gerente, Líder de equipe/clínica, Alta liderança`,
-                                                 `Apoio`,`Outro, por favor especifique:`)) %>% 
-  mutate(cargo = gsub("\\bNA\\b", "", cargo)) %>% 
-mutate(cargo = paste(`Múltiplas Unidades/Nenhuma Unidade específica`,
+dados_respondentes <- dados %>% select(-2:-6) %>% 
+  mutate_all(trimws) %>% 
+  mutate(cargo = paste(Enfermagem, Medicina, `Outra Profissão de Saúde`,
+                       `Supervisor, Gerente, Líder de equipe/clínica, Alta liderança` , `Apoio`)) %>% 
+  mutate(area = paste(`Múltiplas Unidades/Nenhuma Unidade específica`,
                      `Unidades Clínicas/Cirúrgicas`,
                      `Unidades de Cuidados Especializados`,
                      `Serviços Cirúrgicos`,
                      `Serviços Clínicos`, 
                      `Administração/Gestão`,
-                     `Serviços de Apoio`,
-                     `Outro, por favor especifique:`))  %>% 
-mutate(area = gsub("\\bNA\\b", "", area)) %>% 
-select(-3:-8, -10:-17) %>% 
-select(1, 2, 44, 3, 45) %>% 
-rename(cargo_resumido = `Qual é o seu cargo nesse hospital? Selecione UMA opção.` ,
-       area_resumida = `Pense na sua UNIDADE como a área de trabalho, departamento/serviço ou área clínica do hospital onde você passa a maior parte do seu tempo de trabalho. Qual é a sua unidade ou área de trabal...` )
+                     `Serviços de Apoio`)) %>% 
+  select(-2:-7, 59, 8, -9:-16, 59, 17, -18:-57) %>% 
+  mutate(area = gsub("\\bNA\\b", "", area)) %>% 
+  mutate(cargo = gsub("\\bNA\\b", "", cargo)) %>% 
+  mutate_all(trimws) %>% 
+  select(1, 4, 2, 5, 3)
   
 
+dados_respondentes %>% 
+  mutate(cargo = case_when(cargo == "Enfermeiro" ~ "1", 
+                           cargo == "Técnico de Enfermagem" ~ "2", 
+                           cargo == "Auxiliar de Enfermagem" ~ "3",
+                           cargo == "Residente de Enfermagem" ~ '4',
+                           cargo == "Estagiário de Enfermagem (Graduação)" ~ '5',
+                           cargo == "Médico" ~ "6",
+                           cargo == "Médico Hospitalista" ~ "7",
+                           cargo == "Residente de Medicina" ~ "8",
+                           cargo == "Interno de Medicina" ~ "9",
+                           cargo == "Nutricionista" ~ "10",
+                           cargo == "Farmacêutico, Técnico ou Auxiliar de Farmácia" ~ "11",
+                           cargo == "Fisioterapeuta, Terapeuta Ocupacional ou Fonoaudiólogo" ~ "12",
+                           cargo == "Psicólogo" ~ "13",
+                           cargo == "Psicóloga" ~ "13",
+                           cargo == "Bioquímico" ~ "14",
+                           cargo == "Assistente Social" ~ "15",
+                           cargo == "Dentista" ~ "16",
+                           cargo == "Técnico (por exemplo, de Laboratório, Rx, Eletrocardiograma)." ~ "17",
+                           cargo == "Supervisor, Gerente de Departamento, Chefe de equipe/clínica, Administrador, Diretor" ~ "18",
+                           cargo == "Superintendente, Diretor Geral, Diretor Presidente" ~ "19",
+                           cargo == "Hotelaria, Manutenção e Infraestrutura" ~ "20",
+                           cargo == "Serviço de Nutrição e Dietética" ~ "21",
+                           cargo == "Serviço de Limpeza" ~ "22",
+                           cargo == "Tecnologia da Informação, Serviço de Informações em Saúde, Informática Médica" ~ "23",
+                           cargo == "Segurança" ~ '24',
+                           cargo == "Transporte" ~ "25",
+                           cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ '26',
+                           cargo == "Outro, por favor especifique:" ~ '27', TRUE ~ (cargo))) %>% 
+    mutate(area = case_when(area == "Vários setores hospitalares/nenhum setor específico" ~ "1", 
+                           area == "Unidade Mista Clínica e Cirúrgica" ~ "2", 
+                           area == "Unidade Clínica (Não-Cirúrgica)" ~ '3',
+                           area == "Unidade Cirúrgica" ~ "4",
+                           area == "Central de Material e Esterilização (CME)" ~ "5",
+                           area == "Cardiologia" ~ "6",
+                           area == "Serviço de Emergência, Observação, Curta Permanência" ~ "7",
+                           area == "Gastroenterologia" ~ "8",
+                           area == "UTI (adulto - todos os tipos)" ~ "9",
+                           area == "Maternidade, Obstetrícia, Ginecologia" ~ "10",
+                           area == "Oncologia, Hematologia" ~ "11",
+                           area == "Pediatria (incluindo UTI Neonatal e Pediátrica)" ~ "12",
+                           area == "Psiquiatria e Saúde Mental" ~ "13",
+                           area == "Pneumologia" ~ "14",
+                           area == "Reabilitação, Fisiatria" ~ "15",
+                           area == "Anestesiologia" ~ "16",
+                           area == "Endoscopia, Colonoscopia" ~ "17",
+                           area == "Pré Operatório, Centro Cirúrgico/Recuperação Pós Anestésica/Pós Operatório" ~ "18",
+                           area == "Patologia/Laboratório" ~ "19",
+                           area == "Farmácia" ~ "20",
+                           area == "Radiologia, Exames de Imagem" ~ "21",
+                           area == "Terapia Respiratória" ~ "22",
+                           area == "Serviço Social, Planejamento de Alta" ~ '23',
+                           area == "Administração, Gestão" ~ '24',
+                           area == "Serviços Financeiros, Faturamento" ~ '25',
+                           area == "Recursos Humanos,Treinamento" ~ "26",
+                           area == "Educação Continuada" ~ "27", 
+                           area == "Tecnologia da Informação,Gestão da Informação em Saúde, Informática Clínica" ~ "28",
+                           area == "Setor de Arquivo Médico (SAME)" ~ "29",
+                           area == "Recepção, Cadastro" ~ "31",
+                           area == "Serviço de Nutrição e Dietética" ~ "32",
+                           area == "Serviço de Limpeza, Hotelaria, Manutenção e Infraestrutura" ~ "33",
+                           area == "Serviço de Segurança" ~ "34",
+                           area == "Transporte" ~ '35', TRUE ~ (area)))
+  
+
+
+  
 
 ```
 
 
 ```{r}
 
-dados_1 <- dados %>% janitor::clean_names() %>% select(-2:-22) %>%  names()
+dados_1 <- dados %>% janitor::clean_names() %>% select(-2:-22) %>% mutate_all(trimws)
 
 colunas <- c("nesta_unidade_trabalhamos_juntos_como_uma_equipe_integrada", "nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho", "os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente", "esta_unidade_revisa_regularmente_os_processos_de_trabalho_para_determinar_se_sao_necessarias_mudancas_para_melhorar_a", "esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario",  "nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles", 
 "quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema", "durante_periodos_de_sobrecarga_de_trabalho_os_profissionais_desta_unidade_ajudam_uns_aos_outros", "ha_problema_com_comportamento_desrespeitoso_por_parte_daqueles_que_trabalham_nesta_unidade", "quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos", "o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente", "nesta_unidade_as_mudancas_para_melhorar_a_seguranca_do_paciente_sao_avaliadas_para_verificar_se_elas_estao_funcionando_bem",  "nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente", "esta_unidade_permite_que_os_mesmos_continuem_ocorrendo_problemas_de_seguranca_do_paciente", 
@@ -96,69 +158,32 @@ dados_1  %>%
 mutate(avaliacao = case_when(avaliacao == "Ruim" ~ 1, 
                              avaliacao == "Razoável" ~ 2,
                              avaliacao == "Boa" ~ 3,
-                             avaliacao == "Muito boa" ~ 4,
+                             avaliacao == "Muita boa" ~ 4,
                              avaliacao == "Excelente" ~ 5)) %>% 
 mutate(across(all_of(colunas), ~case_when(
-         . == "Discordo Totalmente" ~ 1, 
+         . == "Discordo totalmente" ~ 1,
+         . == "Discordo Totalmente" ~ 1,
          . ==  "Discordo" ~ 2, 
          . ==  "Não concordo nem discordo" ~ 3,
          . ==  "Concordo" ~ 4,
          . ==  "Concordo Totalmente" ~ 5,
+         . ==  "Concordo totalmente" ~ 5,
          . ==  "Não se aplica ou não sei" ~ 9,
            ))) %>% 
 mutate(across(all_of(colunas_2), ~case_when(
          . == "Nunca" ~ 1, 
          . ==  "Raramente" ~ 2, 
+         . ==  "Às vezes" ~ 3,
          . ==  "Às vezes" ~ 3,
          . ==  "Quase sempre" ~ 4,
          . ==  "Sempre" ~ 5,
          . ==  "Não se aplica ou não sei" ~ 9,
-           )))
+         . ==  "Não sei ou não se aplica" ~ 9)))
 
 
 ```
 
 
-```{r}
-
-dados_respondentes %>% mutate(cargo = gsub("\\s+", "", cargo)) %>% distinct(cargo) %>% pull()
-  select(ID, cargo, area) %>% 
-  mutate(cargo = case_when(cargo == "Enfermeiro" ~ 1, 
-                           cargo == "Técnico de Enfermagem" ~ 2, 
-                           cargo == "Auxiliar de Enfermagem" ~ 3,
-                           cargo == "Residente de Enfermagem" ~ 4,
-                           cargo == "Estagiário de Enfermagem (Graduação)" ~ 5,
-                           cargo == "Médico" ~ 6,
-                           cargo == "Médico Hospitalista" ~ 7,
-                           cargo == "Residente de Medicina" ~ 8,
-                           cargo == "Interno de Medicina" ~ 9,
-                           cargo == "Nutricionista" ~ 10,
-                           cargo == "Farmacêutico, Técnico ou Auxiliar de Farmácia" ~ 11,
-                           cargo == "Fisioterapeuta, Terapeuta Ocupacional ou Fonoaudiólogo" ~ 12,
-                           cargo == "Psicólogo" ~ 13,
-                           cargo == "Psicóloga" ~ 13,
-                           cargo == "Bioquímico" ~ 14,
-                           cargo == "Assistente Social" ~ 15,
-                           cargo == "Dentista" ~ 16,
-                           cargo == "Técnico (por exemplo, de Laboratório, Rx, Eletrocardiograma)." ~ 17,
-                           cargo == "Supervisor, Gerente de Departamento, Chefe de equipe/clínica, Administrador, Diretor" ~ 18,
-                           cargo == "Superintendente, Diretor Geral, Diretor Presidente" ~ 19,
-                           cargo == "Hotelaria, Manutenção e Infraestrutura" ~ 20,
-                           cargo == "Serviço de Nutrição e Dietética" ~ 21,
-                           cargo == "Serviço de Limpeza" ~ 22,
-                           cargo == "Tecnologia da Informação, Serviço de Informações em Saúde, Informática Médica" ~ 23,
-                           cargo == "Segurança" ~ 24,
-                           cargo == "Transporte" ~ 25,
-                           cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ 26,
-                           cargo == "Outro, por favor especifique:" ~ 27,
-                           is.na(cargo) ~ 28)) %>% 
-  mutate(cargo = coalesce(cargo, 29)) %>% 
-  group_by(cargo) %>% 
-  tally()
-  
-  
-
-```
 
 
 
