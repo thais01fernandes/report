@@ -60,7 +60,7 @@ dados_respondentes <- dados %>% select(-2:-6) %>%
   select(1, 4, 2, 5, 3)
   
 
-dados_respondentes %>% 
+dados_respondentes_1 <- dados_respondentes %>% 
   mutate(cargo = case_when(cargo == "Enfermeiro" ~ "1", 
                            cargo == "Técnico de Enfermagem" ~ "2", 
                            cargo == "Auxiliar de Enfermagem" ~ "3",
@@ -78,7 +78,7 @@ dados_respondentes %>%
                            cargo == "Bioquímico" ~ "14",
                            cargo == "Assistente Social" ~ "15",
                            cargo == "Dentista" ~ "16",
-                           cargo == "Técnico (por exemplo, de Laboratório, Rx, Eletrocardiograma)." ~ "17",
+                           cargo == "Técnico (por exemplo, de Laboratório, Rx, Eletrocardiograma)" ~ "17",
                            cargo == "Supervisor, Gerente de Departamento, Chefe de equipe/clínica, Administrador, Diretor" ~ "18",
                            cargo == "Superintendente, Diretor Geral, Diretor Presidente" ~ "19",
                            cargo == "Hotelaria, Manutenção e Infraestrutura" ~ "20",
@@ -87,9 +87,9 @@ dados_respondentes %>%
                            cargo == "Tecnologia da Informação, Serviço de Informações em Saúde, Informática Médica" ~ "23",
                            cargo == "Segurança" ~ '24',
                            cargo == "Transporte" ~ "25",
-                           cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ '26',
-                           cargo == "Outro, por favor especifique:" ~ '27', TRUE ~ (cargo))) %>% 
-    mutate(area = case_when(area == "Vários setores hospitalares/nenhum setor específico" ~ "1", 
+                           cargo == "Funcionário ou Secretário de unidade, Recepcionista, Funcionário Administrativo" ~ "26",
+                           cargo == "Outro, por favor especifique:" ~ "27", TRUE ~ (cargo))) %>% 
+    mutate(area = case_when(area == "Vários setores hospitalares/ nenhum setor específico" ~ "1", 
                            area == "Unidade Mista Clínica e Cirúrgica" ~ "2", 
                            area == "Unidade Clínica (Não-Cirúrgica)" ~ '3',
                            area == "Unidade Cirúrgica" ~ "4",
@@ -114,15 +114,17 @@ dados_respondentes %>%
                            area == "Serviço Social, Planejamento de Alta" ~ '23',
                            area == "Administração, Gestão" ~ '24',
                            area == "Serviços Financeiros, Faturamento" ~ '25',
-                           area == "Recursos Humanos,Treinamento" ~ "26",
+                           area == "Recursos Humanos, Treinamento" ~ "26",
                            area == "Educação Continuada" ~ "27", 
-                           area == "Tecnologia da Informação,Gestão da Informação em Saúde, Informática Clínica" ~ "28",
-                           area == "Setor de Arquivo Médico (SAME)" ~ "29",
+                           area == "Tecnologia da Informação, Gestão da Informação em Saúde, Informática Clínica" ~ "28",
+                           area == "Setor de Arquivo Médico (SAME)"  ~ "29",
+                           area == "Qualidade, Gestão de Risco, Segurança do Paciente" ~ "30",
                            area == "Recepção, Cadastro" ~ "31",
                            area == "Serviço de Nutrição e Dietética" ~ "32",
                            area == "Serviço de Limpeza, Hotelaria, Manutenção e Infraestrutura" ~ "33",
                            area == "Serviço de Segurança" ~ "34",
-                           area == "Transporte" ~ '35', TRUE ~ (area)))
+                           area == "Transporte" ~ '35', TRUE ~ (area))) %>% 
+  rename(id = ID)
   
 
 
@@ -154,13 +156,13 @@ colunas_2 <- c("somos_informados_sobre_os_erros_incidentes_de_seguranca_que_acon
 "quando_um_incidente_atinge_o_paciente_e_poderia_ter_lhe_causado_dano_mas_nao_lhe_causou_com_que_frequencia_ele_e_notificado")
 
 
-dados_1  %>% 
+dados_2 <- dados_1  %>% 
 mutate(avaliacao = case_when(avaliacao == "Ruim" ~ 1, 
                              avaliacao == "Razoável" ~ 2,
                              avaliacao == "Boa" ~ 3,
                              avaliacao == "Muita boa" ~ 4,
                              avaliacao == "Excelente" ~ 5)) %>% 
-mutate(across(all_of(colunas), ~case_when(
+  mutate(across(all_of(colunas), ~case_when(
          . == "Discordo totalmente" ~ 1,
          . == "Discordo Totalmente" ~ 1,
          . ==  "Discordo" ~ 2, 
@@ -170,20 +172,51 @@ mutate(across(all_of(colunas), ~case_when(
          . ==  "Concordo totalmente" ~ 5,
          . ==  "Não se aplica ou não sei" ~ 9,
            ))) %>% 
-mutate(across(all_of(colunas_2), ~case_when(
+  mutate(across(all_of(colunas_2), ~case_when(
          . == "Nunca" ~ 1, 
          . ==  "Raramente" ~ 2, 
          . ==  "Às vezes" ~ 3,
-         . ==  "Às vezes" ~ 3,
+         . ==  "Às vezes" ~ 3,
          . ==  "Quase sempre" ~ 4,
          . ==  "Sempre" ~ 5,
          . ==  "Não se aplica ou não sei" ~ 9,
-         . ==  "Não sei ou não se aplica" ~ 9)))
+         . ==  "Não sei ou não se aplica" ~ 9))) %>% 
+  mutate(nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou = case_when(nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou == "Nenhum" ~ "A",
+                                                                                                                   nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou == "1 a 2" ~ "B", 
+                                                                                                  nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou == "3 a 5" ~ "C", 
+                                                                                                                   nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou == "6 a 10" ~ "D",
+                                                                                                                   nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou == "11 ou mais" ~ "E", 
+                                                                                                  TRUE ~ (nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou))) %>% 
+  mutate(ha_quanto_tempo_voce_trabalha_neste_hospital = case_when(ha_quanto_tempo_voce_trabalha_neste_hospital == "Menos que 1 ano" ~ "A",
+                                                                  ha_quanto_tempo_voce_trabalha_neste_hospital == "1 a 5 anos" ~ "B",
+                                                                  ha_quanto_tempo_voce_trabalha_neste_hospital == "6 a 10 anos" ~ "C",
+                                                                  ha_quanto_tempo_voce_trabalha_neste_hospital == "11 anos ou mais" ~ "D", TRUE ~ (ha_quanto_tempo_voce_trabalha_neste_hospital))) %>% 
+  mutate(neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho= case_when(neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho == "Menos que 1 ano" ~ "A", 
+                                                                                                       neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho == "1 a 5 anos" ~ "B",
+                                                                                                       neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho == "6 a 10 anos" ~ "C",
+                                                                                                       neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho == "11 anos ou mais" ~ "D", TRUE ~ (neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho))) %>% 
+  
+mutate(normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital = 
+         case_when(normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital == "Menos que 30 horas por semana" ~ "A", 
+                   normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital == "30 a 40 horas por semana" ~ "B",
+                   normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital == "Mais que 40 horas por semana" ~ "C", TRUE ~ (normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital))) %>% 
+  mutate(no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes= case_when(no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes == "SIM, em geral, tenho interação ou contato direto com os pacientes" ~ "A", 
+                                                                                                      no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes == "NÃO, em geral, NÃO tenho interação ou contato direto com os pacientes" ~ "B", TRUE ~  (no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes))) %>% 
+  select(-obrigado_por_preencher_este_questionario)
+
 
 
 ```
 
 
+
+```{r}
+
+dados_respondentes_1 %>% 
+  left_join(dados_2, by = c("id")) %>% 
+   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2)
+
+```
 
 
 
