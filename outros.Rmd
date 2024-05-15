@@ -1,0 +1,94 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+library(dplyr)
+library(tidyr)
+library(readxl)
+library(tidyverse)
+
+```
+
+
+```{r}
+
+
+base_atualizada <- read_excel('C:/Users/thais.pereira/OneDrive - PRODESP/execução orcamentaria/base_atualizada.xlsx', skip=5)
+  
+
+```
+
+
+
+```{r}
+
+base_atualizada_2 <- base_atualizada %>% 
+  filter(`Código Nome Elemento` != "10001 - SEC.DESENV. ECONOMICO, CIENCIA,TECN. INOVACA Total", 
+         `Código Nome Elemento` != "150010 - RECURSOS NAO VINC DE IMPOSTOS - TESOURO Total", 
+         `Código Nome Elemento` != "0001 - PARTICIPACAO SOCIETARIA Total", 
+         `Código Nome Elemento` != "2266 - SUBSCRICAO DE ACOES DA DESENVOLVE SP Total",
+         `Código Nome Elemento` != "1047 - COMPETITIVIDADE, DESENVOLVIMENTO ECONOMICO E REGIONAL Total",
+         `Código Nome Elemento` != "2689 - PROMOCAO DA REINDUSTRIALIZACAO Total",
+         `Código Nome Elemento` != "2744 - POLOS ECONOMICOS Total",
+         `Código Nome Elemento` != "5848 - PROMOCAO DA COMPETITIV., INVEST. E DESENVOLV. Total",
+         `Código Nome Elemento` != "6338 - FORTALEC. ARRANJOS PROD. LOCAIS ESTRATEGICOS Total",
+         `Código Nome Elemento` != "6446 - GESTAO APRIM. POLIT. FOMENTO EMPREGABILIDADE Total",
+         `Código Nome Elemento` != "6546 - QUALIFICACAO LOCAL PARA COMPETITIVIDADE Total",
+         `Código Nome Elemento` != "1048 - EMPREENDEDORISMO E LIBERDADE ECONOMICA Total",
+         `Código Nome Elemento` != "4225 - CONCESSAO CREDITO E MICROCREDITO PRODUTIVOS Total",
+         `Código Nome Elemento` != "5285 - GESTAO E APRIMOR. FOMENTO AO EMPREENDEDORISMO Total",
+         `Código Nome Elemento` != "1051 - QUALIFICACAO PROFISSIONAL E EMPREENDEDORA Total",
+         `Código Nome Elemento` != "6451 - OFERTA DE QUALIFICACAO PARA EMPREENDEDORES Total",
+         `Código Nome Elemento` != "6462 - APRENDIZAGEM PROFIS. JOVENS - JOVEM APRENDIZ Total",
+         `Código Nome Elemento` != "6463 - QUALIFICACAO PROFISSIONAL ENTRE 16 E 24 ANOS Total",
+         `Código Nome Elemento` != "6464 - QUALIFICACAO PROFISSIONAL ENTRE 25 E 59 ANOS Total",
+         `Código Nome Elemento` != "6465 - QUALIFICACAO PROFISSIONAL P/ 60 ANOS OU MAIS Total",
+         `Código Nome Elemento` != "1052 - SUPORTE ADMINISTRATIVO E MELHORIA DE GESTAO DA SDE Total",
+         `Código Nome Elemento` != "5272 - APOIO TECNICO-ADMINISTRATIVO Total",
+         `Código Nome Elemento` != "3521 - SUPERACAO DA VULNERABILIDADE SOCIAL Total",
+         `Código Nome Elemento` != "6482 - QUALIF PROFISS P/ GRUPOS POPULAC VULNERAVEIS Total",
+         `Código Nome Elemento` != "5125 - DESENVOLVIMENTO DE ACOES DECORRENTES DE EMENDAS PARLAMENTARES Total",
+         `Código Nome Elemento` != "2272 - ACOES DECORRENTES DE EMENDAS, EXCETO SAUDE Total",
+         `Código Nome Elemento` != "150010 - RECURSOS NAO VINC DE IMPOSTOS - TESOURO Total",
+         `Código Nome Elemento` != "166950 - OUTROS RECURSOS VINC A ASSISTENCIA SOCIAL - TRANSFERENCIAS FEDERAIS Total",
+         `Código Nome Elemento` != "1047 - COMPETITIVIDADE, DESENVOLVIMENTO ECONOMICO E REGIONAL Total",
+         `Código Nome Elemento` != "2744 - POLOS ECONOMICOS Total",
+         `Código Nome Elemento` != "6446 - GESTAO APRIM. POLIT. FOMENTO EMPREGABILIDADE Total",
+         `Código Nome Elemento` != "166950 - OUTROS RECURSOS VINC A ASSISTENCIA SOCIAL - TRANSFERENCIAS FEDERAIS Total",
+         `Código Nome Elemento` != "175478 - RECURSOS DE OPERACOES DE CREDITO - OPERACAO CREDITO - EXTERNA Total",
+         `Código Nome Elemento` != "1047 - COMPETITIVIDADE, DESENVOLVIMENTO ECONOMICO E REGIONAL Total",
+         `Código Nome Elemento` != "6338 - FORTALEC. ARRANJOS PROD. LOCAIS ESTRATEGICOS Total",
+         `Código Nome Elemento` != "175478 - RECURSOS DE OPERACOES DE CREDITO - OPERACAO CREDITO - EXTERNA Total",
+         `Código Nome Elemento` != "175530 - REC DE ALIENACAO DE BENS/ATIVOS - ADMINISTRACAO DIRETA - FED Total",
+         `Código Nome Elemento` != "1047 - COMPETITIVIDADE, DESENVOLVIMENTO ECONOMICO E REGIONAL Total",
+         `Código Nome Elemento` != "6446 - GESTAO APRIM. POLIT. FOMENTO EMPREGABILIDADE Total",
+         `Código Nome Elemento` != "175530 - REC DE ALIENACAO DE BENS/ATIVOS - ADMINISTRACAO DIRETA - FED Total",
+         `Código Nome Elemento` != "175930 - RECURSOS VINCULADOS A FUNDOS - FED Total",
+         `Código Nome Elemento` != "1047 - COMPETITIVIDADE, DESENVOLVIMENTO ECONOMICO E REGIONAL Total",
+         `Código Nome Elemento` != "6446 - GESTAO APRIM. POLIT. FOMENTO EMPREGABILIDADE Total",
+         `Código Nome Elemento` != "175930 - RECURSOS VINCULADOS A FUNDOS - FED Total",
+         `Código Nome Elemento` != "0 - PODER EXECUTIVO Total") %>% 
+  rename(`Elemento de Despesa` = `Código Nome Elemento`)
+ 
+
+        
+
+         
+```         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+

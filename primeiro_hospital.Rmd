@@ -32,7 +32,7 @@ library("purrr")
 
 ```{r}
 
-
+gs4_deauth()
 dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 1) 
 
 ```
@@ -42,7 +42,7 @@ dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGe
 ```{r}
 
 
-dados_respondentes <- dados %>% select(-2:-6) %>% 
+dados_respondentes <- dados %>%  select(-2:-6) %>% 
   mutate_all(trimws) %>% 
   mutate(cargo = paste(Enfermagem, Medicina, `Outra Profissão de Saúde`,
                        `Supervisor, Gerente, Líder de equipe/clínica, Alta liderança` , `Apoio`)) %>% 
@@ -53,11 +53,14 @@ dados_respondentes <- dados %>% select(-2:-6) %>%
                      `Serviços Clínicos`, 
                      `Administração/Gestão`,
                      `Serviços de Apoio`)) %>% 
-  select(-2:-7, 59, 8, -9:-16, 59, 17, -18:-57) %>% 
+  select(-2:-7, 59, 8, -9:-16, 17, -18:-43, -46:-51, -57) %>% 
   mutate(area = gsub("\\bNA\\b", "", area)) %>% 
   mutate(cargo = gsub("\\bNA\\b", "", cargo)) %>% 
   mutate_all(trimws) %>% 
-  select(1, 4, 2, 5, 3)
+  select(-2, -3)
+
+dados_respondentes %>% 
+   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3)
   
 
 dados_respondentes_1 <- dados_respondentes %>% 

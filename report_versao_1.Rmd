@@ -1,0 +1,168 @@
+---
+title: "Relatório de Avaliação"
+output: word_document
+date: "2024-05-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r include=FALSE}
+
+library("tidyverse")
+library("readxl")
+library('googlesheets4')
+library("janitor")
+library ("abjData")
+library("geobr")
+library("dplyr")
+library("tidyr")
+library("purrr")
+
+
+
+```
+
+
+
+**Dados da Avaliação**
+
+Nome: 
+
+Data de início: 
+
+Qtd. de Questionários Respondidos: 
+
+Hospital Avaliado: 
+
+Data de Término: 
+
+Qtd de Questionários Enviados:
+
+Percentual de Resposta:
+
+
+**3 melhores resultados:**
+
+
+**3 piores resultados:**
+
+
+```{r include=FALSE}
+
+dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3) %>% 
+  janitor::clean_names()
+
+
+```
+
+
+**Estatística Descritiva**
+
+**1. Caracterização da Amostra**
+
+Tabela 1 - Porcentagem de participantes por serviço
+
+
+```{r echo=FALSE}
+
+tabela_area <- dados_respondentes %>% 
+  group_by(area) %>% 
+  tally() %>% 
+  mutate(area = replace_na(area, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n)
+
+
+total_n <- sum(tabela_area$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  area = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+
+bind_rows(tabela_area, linha_total)
+
+```
+
+
+Tabela 2 - Porcentagem de participantes por profissão
+
+
+
+```{r echo=FALSE}
+
+tabela_cargo <- dados_respondentes %>% 
+  group_by(cargo) %>% 
+  tally() %>% 
+  mutate(cargo = replace_na(cargo, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n)
+
+
+total_n <- sum(tabela_cargo$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  cargo = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_cargo, linha_total)
+
+```
+
+
+Tabela 3 - Tempo trabalhado neste hospital
+
+
+
+```{r}
+
+tabela_temp_hospital <- dados_respondentes %>% 
+  group_by(ha_quanto_tempo_voce_trabalha_neste_hospital) %>% 
+  tally() %>% 
+  mutate(ha_quanto_tempo_voce_trabalha_neste_hospital = replace_na(ha_quanto_tempo_voce_trabalha_neste_hospital, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Tempo = ha_quanto_tempo_voce_trabalha_neste_hospital)
+
+
+total_n <- sum(tabela_temp_hospital$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Tempo = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_temp_hospital, linha_total)
+
+
+```
+
+
+```{r}
+
+
+
+
+```
+
+
+
+
+
+
+
+
