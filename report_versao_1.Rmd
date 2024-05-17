@@ -56,6 +56,9 @@ dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Z
   janitor::clean_names()
 
 
+dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2) 
+
+
 ```
 
 
@@ -152,12 +155,212 @@ bind_rows(tabela_temp_hospital, linha_total)
 ```
 
 
+Tabela 4 - Tempo trabalhado na área/unidade atual
+
+
+
 ```{r}
 
+tabela_temp_funcao <- dados_respondentes %>% 
+  group_by(neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho) %>% 
+  tally() %>% 
+  mutate(neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho = replace_na(neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Tempo = neste_hospital_ha_quanto_tempo_voce_trabalha_na_sua_atual_unidade_area_de_trabalho)
+
+
+total_n <- sum(tabela_temp_funcao$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Tempo = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_temp_funcao, linha_total)
 
 
 
 ```
+
+Tabela 5 - Quantidade de horas trabalhadas por semana
+
+
+```{r}
+
+
+tabela_horas_trabalho <- dados_respondentes %>% 
+  group_by(	
+normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital) %>% 
+  tally() %>% 
+  mutate(	
+normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital = replace_na(normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Tempo = 	
+normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital)
+
+
+total_n <- sum(tabela_horas_trabalho$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Tempo = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_horas_trabalho, linha_total)
+
+
+
+```
+
+
+
+Tabela 6 - Interação ou contato direto com os pacientes
+
+
+
+```{r}
+
+
+tabela_contato <- dados_respondentes %>% 
+  group_by(no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes) %>% 
+  tally() %>% 
+  mutate(no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes = replace_na(	
+no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Contato = 	no_seu_cargo_funcao_em_geral_voce_tem_interacao_ou_contato_direto_com_os_pacientes)
+
+
+total_n <- sum(tabela_contato$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Contato = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_contato , linha_total)
+
+
+
+```
+
+**2. Cultura de Segurança do Paciente: Indicadores do HSOPSC**
+
+
+Tabela 8 - Quantidade de eventos adversos notificados
+
+
+```{r}
+
+tabela_eventos <- dados_respondentes %>% 
+  group_by(nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou) %>% 
+  tally() %>% 
+  mutate(nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou = replace_na(	
+nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Eventos = 	nos_ultimos_doze_meses_quantos_incidentes_relacionados_a_seguranca_do_paciente_voce_notificou)
+
+
+total_n <- sum(tabela_eventos$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Contato = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_eventos, linha_total)
+
+
+```
+
+
+Tabela 9 - Percepção da segurança do paciente no ambiente de trabalho
+
+```{r}
+
+
+tabela_avaliacao <- dados_respondentes %>% 
+  group_by(avaliacao) %>% 
+  tally() %>% 
+  mutate(avaliacao = replace_na(	
+avaliacao, "Outros")) %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) %>% 
+  rename(Contato = 	avaliacao)
+
+
+total_n <- sum(tabela_avaliacao$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  Contato = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+bind_rows(tabela_avaliacao, linha_total)
+
+
+```
+
+
+Tabela 10 - Porcentagem de respostas por dimensão
+
+
+```{r}
+
+dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente, 
+         pergunta_2 =  meu_supervisor_gerente_ou_chefe_de_equipe_clinica_quer_que_trabalhemos_mais_rapido_nos_horarios_de_demanda_intensa_de_trabalho_mesmo_que_isso_implique_em_pular_etapas, 
+         pergunta_3 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_adota_medidas_para_resolver_as_questoes_de_seguranca_do_paciente_que_lhe_sao_apresentadas) %>% 
+  select(pergunta_1, pergunta_2,  pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == ))
+  
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
