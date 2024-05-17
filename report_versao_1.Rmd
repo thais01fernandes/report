@@ -1,11 +1,63 @@
 ---
-title: "Relatório de Avaliação"
-output: word_document
-date: "2024-05-15"
+title: ""
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+date: ""
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+(knitr::opts_chunk$set(
+	echo = FALSE,
+	error = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+) 
+```
+
+
+```{css Estilo do Relatório}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap');
+
+h1.title{ 
+    font-family: 'Lora', serif;
+    color: black;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+h4.author{ 
+    font-family: 'Lora', serif;
+    color: black;
+    font-size: 20px;
+    text-align: center;
+}
+
+h4.date{ 
+    font-family: 'Lora', serif;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+}
+
+p{
+  font-family: 'Lora', serif;
+  text-align: justify;
+  font-size: 16px
+}
+h2 {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  text-align: justify;
+}
+
+
 ```
 
 
@@ -20,34 +72,11 @@ library("geobr")
 library("dplyr")
 library("tidyr")
 library("purrr")
-
-
+library("reactable")
 
 ```
 
 
-
-**Dados da Avaliação**
-
-Nome: 
-
-Data de início: 
-
-Qtd. de Questionários Respondidos: 
-
-Hospital Avaliado: 
-
-Data de Término: 
-
-Qtd de Questionários Enviados:
-
-Percentual de Resposta:
-
-
-**3 melhores resultados:**
-
-
-**3 piores resultados:**
 
 
 ```{r include=FALSE}
@@ -69,7 +98,7 @@ dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zyde
 Tabela 1 - Porcentagem de participantes por serviço
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, align = 'center'}
 
 tabela_area <- dados_respondentes %>% 
   group_by(area) %>% 
@@ -89,8 +118,33 @@ linha_total <- tibble(
   pct = total_pct
 )
 
+tabela_completa_1 <- bind_rows(tabela_area, linha_total) 
 
-bind_rows(tabela_area, linha_total)
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_1)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_1 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      area = colDef(name = "Serviço", minWidth = 350),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 ```
 
@@ -119,7 +173,33 @@ linha_total <- tibble(
   pct = total_pct
 )
 
-bind_rows(tabela_cargo, linha_total)
+tabela_completa_2 <- bind_rows(tabela_cargo, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_2)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_2 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      cargo = colDef(name = "Serviço", minWidth = 350),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 ```
 
@@ -149,7 +229,33 @@ linha_total <- tibble(
   pct = total_pct
 )
 
-bind_rows(tabela_temp_hospital, linha_total)
+tabela_completa_3 <- bind_rows(tabela_temp_hospital, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_3)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_3 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Tempo = colDef(name = "Tempo", minWidth = 300),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 ```
@@ -180,7 +286,34 @@ linha_total <- tibble(
   pct = total_pct
 )
 
-bind_rows(tabela_temp_funcao, linha_total)
+
+tabela_completa_4 <- bind_rows(tabela_temp_funcao, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_4)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_4 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Tempo = colDef(name = "Tempo", minWidth = 300),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 
@@ -214,7 +347,33 @@ linha_total <- tibble(
   pct = total_pct
 )
 
-bind_rows(tabela_horas_trabalho, linha_total)
+tabela_completa_5 <- bind_rows(tabela_horas_trabalho, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_5)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_5 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Tempo = colDef(name = "Tempo", minWidth = 300),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 
@@ -249,7 +408,33 @@ linha_total <- tibble(
   pct = total_pct
 )
 
-bind_rows(tabela_contato , linha_total)
+tabela_completa_6 <- bind_rows(tabela_contato, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_6)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_6 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Contato = colDef(name = "Contato", minWidth = 500),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 
@@ -278,12 +463,39 @@ total_pct <- 1
 
 
 linha_total <- tibble(
-  Contato = "Total",
+  Eventos = "Total",
   n = total_n,
   pct = total_pct
 )
 
-bind_rows(tabela_eventos, linha_total)
+
+tabela_completa_7 <- bind_rows(tabela_eventos, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_7)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_7 %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Eventos = colDef(name = "Eventos", minWidth = 200),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 ```
@@ -301,7 +513,7 @@ tabela_avaliacao <- dados_respondentes %>%
 avaliacao, "Outros")) %>% 
   mutate(pct = n/sum(n)) %>% 
   arrange(-n) %>% 
-  rename(Contato = 	avaliacao)
+  rename(Nota = 	avaliacao)
 
 
 total_n <- sum(tabela_avaliacao$n)
@@ -309,12 +521,38 @@ total_pct <- 1
 
 
 linha_total <- tibble(
-  Contato = "Total",
+  Nota = "Total",
   n = total_n,
   pct = total_pct
 )
 
-bind_rows(tabela_avaliacao, linha_total)
+tabela_completa_8 <- bind_rows(tabela_avaliacao, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_8)) {
+    list(
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_8  %>% 
+  reactable(
+    outlined = FALSE, 
+    fullWidth = FALSE,
+    bordered = TRUE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      align = "center"
+    ),
+    columns = list(
+      Nota = colDef(name = "Nota", minWidth = 200),
+      n = colDef(name = "Quantidade", minWidth = 150), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+    ), rowStyle = row_style
+  )
 
 
 ```
@@ -323,15 +561,35 @@ bind_rows(tabela_avaliacao, linha_total)
 Tabela 10 - Porcentagem de respostas por dimensão
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
-dados_completos %>% 
+primeira_dimensao <- dados_completos %>% 
   rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente, 
          pergunta_2 =  meu_supervisor_gerente_ou_chefe_de_equipe_clinica_quer_que_trabalhemos_mais_rapido_nos_horarios_de_demanda_intensa_de_trabalho_mesmo_que_isso_implique_em_pular_etapas, 
          pergunta_3 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_adota_medidas_para_resolver_as_questoes_de_seguranca_do_paciente_que_lhe_sao_apresentadas) %>% 
   select(pergunta_1, pergunta_2,  pergunta_3) %>% 
-  mutate(pergunta_1 = case_when(pergunta_1 == ))
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "1 - Apoio da gerência do hospital para a segurança do paciente", value))
   
+
+
 
 
 ```
