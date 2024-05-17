@@ -589,7 +589,37 @@ primeira_dimensao <- dados_completos %>%
   mutate(value = gsub("Positivo", "1 - Apoio da gerência do hospital para a segurança do paciente", value))
   
 
+```
 
+
+
+```{r}
+
+
+segunda_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_trabalhamos_juntos_como_uma_equipe_integrada, 
+         pergunta_2 =  durante_periodos_de_sobrecarga_de_trabalho_os_profissionais_desta_unidade_ajudam_uns_aos_outros, 
+         pergunta_3 = ha_problema_com_comportamento_desrespeitoso_por_parte_daqueles_que_trabalham_nesta_unidade) %>% 
+  select(pergunta_1, pergunta_2,  pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "2 - Trabalho em Equipe", value))
 
 
 ```
@@ -597,12 +627,67 @@ primeira_dimensao <- dados_completos %>%
 
 
 
+```{r}
+
+
+terceira_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_os_profissionais_se_falam_abertamente_quando_veem_algo_que_pode_afetar_negativamente_o_cuidado_do_paciente, 
+         pergunta_2 = quando_os_profissionais_desta_unidade_veem_alguem_com_mais_autoridade_fazendo_algo_inseguro_para_os_pacientes_eles_falam_abertamente, 
+         pergunta_3 = quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente) %>% 
+  select(pergunta_1, pergunta_2,  pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "3 - Abertura para a Comunicação", value))
 
 
 
 
+```
 
 
+
+```{r}
+
+quarta_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = quando_um_incidente_e_detectado_e_corrigido_antes_de_atingir_o_paciente_com_que_frequencia_ele_e_notificado, 
+         pergunta_2 = quando_um_incidente_atinge_o_paciente_e_poderia_ter_lhe_causado_dano_mas_nao_lhe_causou_com_que_frequencia_ele_e_notificado) %>% 
+  select(pergunta_1, pergunta_2) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "4 - Relato de eventos de segurança do paciente", value))
+
+
+
+
+```
 
 
 
