@@ -131,20 +131,21 @@ row_style <- function(index) {
 
 tabela_completa_1 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
-    ),
+    headerStyle = list(borderWidth = 3)),
     columns = list(
-      area = colDef(name = "Serviço", minWidth = 350),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
-    ), rowStyle = row_style
-  )
+      area = colDef(name = "Serviço", minWidth = 350, align = "left"), # alinha "area" à esquerda
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), # alinha "n" no meio
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center") # alinha "pct" no meio
+    ),
+    rowStyle = row_style)
+  
+
 
 ```
 
@@ -186,18 +187,18 @@ row_style <- function(index) {
 
 tabela_completa_2 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      cargo = colDef(name = "Serviço", minWidth = 350),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      cargo = colDef(name = "Serviço", minWidth = 350, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
   )
 
@@ -242,18 +243,18 @@ row_style <- function(index) {
 
 tabela_completa_3 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Tempo = colDef(name = "Tempo", minWidth = 300),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, , align = "center")
     ), rowStyle = row_style
   )
 
@@ -300,18 +301,18 @@ row_style <- function(index) {
 
 tabela_completa_4 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Tempo = colDef(name = "Tempo", minWidth = 300),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150,  align = "center")
     ), rowStyle = row_style
   )
 
@@ -360,18 +361,18 @@ row_style <- function(index) {
 
 tabela_completa_5 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Tempo = colDef(name = "Tempo", minWidth = 300),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
   )
 
@@ -421,18 +422,18 @@ row_style <- function(index) {
 
 tabela_completa_6 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+     headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Contato = colDef(name = "Contato", minWidth = 500),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Contato = colDef(name = "Contato", minWidth = 500, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
   )
 
@@ -482,18 +483,18 @@ row_style <- function(index) {
 
 tabela_completa_7 %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Eventos = colDef(name = "Eventos", minWidth = 200),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Eventos = colDef(name = "Eventos", minWidth = 200, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
   )
 
@@ -539,18 +540,18 @@ row_style <- function(index) {
 
 tabela_completa_8  %>% 
   reactable(
-    outlined = FALSE, 
+    outlined = TRUE, 
     fullWidth = FALSE,
-    bordered = TRUE,
+    bordered = FALSE,
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      align = "center"
+      headerStyle = list(borderWidth = 3)
     ),
     columns = list(
-      Nota = colDef(name = "Nota", minWidth = 200),
-      n = colDef(name = "Quantidade", minWidth = 150), 
-      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150)
+      Nota = colDef(name = "Nota", minWidth = 200, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
   )
 
@@ -586,7 +587,7 @@ primeira_dimensao <- dados_completos %>%
   mutate(pct = n/sum(n)) %>% 
   filter(value == "Positivo") %>% 
   select(1, 3) %>% 
-  mutate(value = gsub("Positivo", "1 - Apoio da gerência do hospital para a segurança do paciente", value))
+  mutate(value = gsub("Positivo", "1 - Apoio do Supervisor, gestor ou liderança clínica para a segurança do paciente", value))
   
 
 ```
@@ -682,7 +683,7 @@ quarta_dimensao <- dados_completos %>%
   mutate(pct = n/sum(n)) %>% 
   filter(value == "Positivo") %>% 
   select(1, 3) %>% 
-  mutate(value = gsub("Positivo", "4 - Relato de eventos de segurança do paciente", value))
+  mutate(value = case_when(value == "Positivo" ~ "4 - Notificação de Eventos de Segurança do Paciente"))
 
 
 
@@ -691,20 +692,288 @@ quarta_dimensao <- dados_completos %>%
 
 
 
+```{r}
+
+quinta_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = esta_unidade_revisa_regularmente_os_processos_de_trabalho_para_determinar_se_sao_necessarias_mudancas_para_melhorar_a, 
+         pergunta_2 = nesta_unidade_as_mudancas_para_melhorar_a_seguranca_do_paciente_sao_avaliadas_para_verificar_se_elas_estao_funcionando_bem,
+          pergunta_3 = esta_unidade_permite_que_os_mesmos_continuem_ocorrendo_problemas_de_seguranca_do_paciente) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "5 - Aprendizado Organizacional e Melhoria Contínua", value))
 
 
 
 
+```
+
+
+```{r}
+
+sexta_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = somos_informados_sobre_os_erros_incidentes_de_seguranca_que_acontecem_nesta_unidade, 
+         pergunta_2 = quando_acontecem_erros_incidentes_de_seguranca_nessa_unidade_discutimos_maneiras_de_evitar_que_voltem_a_acontecer,
+          pergunta_3 = nesta_unidade_somos_informados_sobre_as_mudancas_realizadas_com_base_nos_relatorios_de_notificacao_de_incidentes) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "6 - Comunicação sobre Erro", value))
+
+
+```
+
+```{r}
+
+setima_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = as_acoes_da_gestao_do_hospital_demonstram_que_a_seguranca_do_paciente_tem_alta_prioridade, 
+         pergunta_2 = a_gestao_do_hospital_fornece_recursos_adequados_para_melhorar_a_seguranca_do_paciente,
+          pergunta_3 = a_gestao_do_hospital_parece_ter_interesse_na_seguranca_do_paciente_somente_apos_a_ocorrencia_de_um_evento_adverso) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "7 - Suporte da Administração do Hospital a Segurança do Paciente", value))
+
+
+```
+
+```{r}
+
+oitava_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos, 
+         pergunta_2 = nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles,
+          pergunta_3 = quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema, 
+         pergunta_4 = nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3, pergunta_4) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_4 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "8 - Reposta ao Erro", value))
+
+
+```
+
+
+
+```{r}
+
+
+nona_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = durante_as_mudancas_de_turno_plantao_ha_tempo_suficiente_para_trocar_todas_as_informacoes_importantes_para_o_cuidado_do_paciente, 
+         pergunta_2 = quando_pacientes_sao_transferidos_de_uma_unidade_para_outra_informacoes_importantes_sobre_o_seu_cuidado_sao_frequentemente_perdidas,
+          pergunta_3 = durante_as_mudancas_de_turno_plantao_informacoes_importantes_sobre_o_cuidado_do_paciente_frequentemente_sao_omitidas) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "9 - Transferências e Trocas de Informação", value))
+
+```
+
+
+```{r}
+
+decima_dimensao <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho, 
+         pergunta_2 = os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente,
+          pergunta_3 = esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario, 
+         pergunta_4 = o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente) %>% 
+  select(pergunta_1, pergunta_2, pergunta_3, pergunta_4) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_4 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  group_by(value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(value == "Positivo") %>% 
+  select(1, 3) %>% 
+  mutate(value = gsub("Positivo", "10 - Pessoal e Ritmo de Trabalho", value))
+
+
+```
+
+
+```{r}
+
+tabela_completa <- bind_rows(
+  segunda_dimensao, 
+  terceira_dimensao, 
+  quarta_dimensao, 
+  quinta_dimensao, 
+  sexta_dimensao, 
+  setima_dimensao,
+  oitava_dimensao,
+  nona_dimensao, 
+  decima_dimensao
+) 
+
+
+reactable(
+  tabela_completa,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3)
+  ),
+  columns = list(
+    value = colDef(name = "Dimensão", minWidth = 550, align = "left"),
+    pct = colDef(name = "Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.30) {
+        color <- "#e00000"
+      } else if (value > 0.7) {
+        color <- "#008000"
+      } else {
+        color <- "black"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+  
+  
+
+
+```
+
+**3. Cultura de Segurança do Paciente, Itens agrupados por dimensões**
+
+## 1 - Apoio do Supervisor, gestor ou liderança clínica para a segurança do paciente
 
 
 
 
+```{r}
 
 
+dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 0)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#e4c14e")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+  
 
 
-
-
+```
 
 
 
