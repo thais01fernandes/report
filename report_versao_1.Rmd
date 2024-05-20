@@ -123,6 +123,7 @@ tabela_completa_1 <- bind_rows(tabela_area, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_1)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -137,7 +138,7 @@ tabela_completa_1 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-    headerStyle = list(borderWidth = 3)),
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )),
     columns = list(
       area = colDef(name = "Serviço", minWidth = 350, align = "left"), # alinha "area" à esquerda
       n = colDef(name = "Quantidade", minWidth = 150, align = "center"), # alinha "n" no meio
@@ -145,6 +146,7 @@ tabela_completa_1 %>%
     ),
     rowStyle = row_style)
   
+
 
 
 ```
@@ -179,6 +181,7 @@ tabela_completa_2 <- bind_rows(tabela_cargo, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_2)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -193,9 +196,8 @@ tabela_completa_2 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
-    ),
-    columns = list(
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )), 
+      columns = list(
       cargo = colDef(name = "Serviço", minWidth = 350, align = "left"),
       n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
       pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
@@ -235,6 +237,7 @@ tabela_completa_3 <- bind_rows(tabela_temp_hospital, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_3)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -249,7 +252,7 @@ tabela_completa_3 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
@@ -293,6 +296,7 @@ tabela_completa_4 <- bind_rows(tabela_temp_funcao, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_4)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -307,7 +311,7 @@ tabela_completa_4 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
@@ -353,6 +357,7 @@ tabela_completa_5 <- bind_rows(tabela_horas_trabalho, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_5)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -367,7 +372,7 @@ tabela_completa_5 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Tempo = colDef(name = "Tempo", minWidth = 300, align = "left"),
@@ -414,6 +419,7 @@ tabela_completa_6 <- bind_rows(tabela_contato, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_6)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -428,7 +434,7 @@ tabela_completa_6 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-     headerStyle = list(borderWidth = 3)
+     headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Contato = colDef(name = "Contato", minWidth = 500, align = "left"),
@@ -475,6 +481,7 @@ tabela_completa_7 <- bind_rows(tabela_eventos, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_7)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -489,7 +496,7 @@ tabela_completa_7 %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
+     headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Eventos = colDef(name = "Eventos", minWidth = 200, align = "left"),
@@ -532,6 +539,7 @@ tabela_completa_8 <- bind_rows(tabela_avaliacao, linha_total)
 row_style <- function(index) {
   if (index == nrow(tabela_completa_8)) {
     list(
+      backgroundColor = "#ebf1f2", 
       fontWeight = "bold")
   } else {
     NULL
@@ -546,7 +554,7 @@ tabela_completa_8  %>%
     striped = FALSE,
     pagination = FALSE, # Desativa a paginação
     defaultColDef = colDef(
-      headerStyle = list(borderWidth = 3)
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
     ),
     columns = list(
       Nota = colDef(name = "Nota", minWidth = 200, align = "left"),
@@ -587,7 +595,7 @@ primeira_dimensao <- dados_completos %>%
   mutate(pct = n/sum(n)) %>% 
   filter(value == "Positivo") %>% 
   select(1, 3) %>% 
-  mutate(value = gsub("Positivo", "1 - Apoio do Supervisor, gestor ou liderança clínica para a segurança do paciente", value))
+  mutate(value = case_when(value == "Positivo" ~ "1 - Apoio do Supervisor, gestor ou liderança clínica para a segurança do paciente"))
   
 
 ```
@@ -815,7 +823,7 @@ oitava_dimensao <- dados_completos %>%
   mutate(pct = n/sum(n)) %>% 
   filter(value == "Positivo") %>% 
   select(1, 3) %>% 
-  mutate(value = gsub("Positivo", "8 - Reposta ao Erro", value))
+  mutate(value = gsub("Positivo", "8 - Resposta ao Erro", value))
 
 
 ```
@@ -892,6 +900,7 @@ decima_dimensao <- dados_completos %>%
 ```{r}
 
 tabela_completa <- bind_rows(
+  primeira_dimensao,
   segunda_dimensao, 
   terceira_dimensao, 
   quarta_dimensao, 
@@ -912,7 +921,7 @@ reactable(
   striped = FALSE,
   pagination = FALSE, # Desativa a paginação
   defaultColDef = colDef(
-    headerStyle = list(borderWidth = 3)
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
   ),
   columns = list(
     value = colDef(name = "Dimensão", minWidth = 550, align = "left"),
@@ -943,11 +952,10 @@ reactable(
 
 
 
-
 ```{r}
 
 
-dados_completos %>% 
+grafico_1 <- dados_completos %>% 
   rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
                                 pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
@@ -962,7 +970,7 @@ dados_completos %>%
   ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
   geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
   coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
-  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#e4c14e")) +  # Define as cores para cada categoria
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
   theme_void() +  # Remove todos os elementos de tema padrão
   labs(x = NULL, y = NULL, fill = NULL) +
   geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
@@ -970,11 +978,75 @@ dados_completos %>%
   legend.position = "none"
 )
   
-  
+ ggsave("grafico_1.png", plot = grafico_1, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
 
+
+
+```{r}
+
+
+grafico_2 <- dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_quer_que_trabalhemos_mais_rapido_nos_horarios_de_demanda_intensa_de_trabalho_mesmo_que_isso_implique_em_pular_etapas) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 0)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_2.png", plot = grafico_2, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+```{r}
+
+
+grafico_3 <- dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_adota_medidas_para_resolver_as_questoes_de_seguranca_do_paciente_que_lhe_sao_apresentadas) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 0)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_3.png", plot = grafico_3, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
 
 
 
