@@ -570,7 +570,7 @@ tabela_completa_8  %>%
 Tabela 10 - Porcentagem de respostas por dimensão
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 
 primeira_dimensao <- dados_completos %>% 
   rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente, 
@@ -589,7 +589,8 @@ primeira_dimensao <- dados_completos %>%
                                 pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
-  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>%
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -623,6 +624,7 @@ segunda_dimensao <- dados_completos %>%
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+   filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -642,8 +644,9 @@ segunda_dimensao <- dados_completos %>%
 terceira_dimensao <- dados_completos %>% 
   rename(pergunta_1 = nesta_unidade_os_profissionais_se_falam_abertamente_quando_veem_algo_que_pode_afetar_negativamente_o_cuidado_do_paciente, 
          pergunta_2 = quando_os_profissionais_desta_unidade_veem_alguem_com_mais_autoridade_fazendo_algo_inseguro_para_os_pacientes_eles_falam_abertamente, 
-         pergunta_3 = quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente) %>% 
-  select(pergunta_1, pergunta_2,  pergunta_3) %>% 
+         pergunta_3 = quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente,
+         pergunta_4 = nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo) %>% 
+  select(pergunta_1, pergunta_2,  pergunta_3, pergunta_4) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
                                 pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
                                 pergunta_1 == 3 ~ "Neutro", 
@@ -652,11 +655,16 @@ terceira_dimensao <- dados_completos %>%
                                 pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
                                 pergunta_2 == 3 ~ "Neutro", 
                                 pergunta_2 == 9 ~ "N/a")) %>% 
-  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
-                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+   filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -685,7 +693,8 @@ quarta_dimensao <- dados_completos %>%
                                 pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
                                 pergunta_2 == 3 ~ "Neutro", 
                                 pergunta_2 == 9 ~ "N/a")) %>% 
-  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>%
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -720,6 +729,7 @@ mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo",
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -753,6 +763,7 @@ mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo",
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -762,6 +773,7 @@ mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo",
 
 
 ```
+
 
 ```{r}
 
@@ -778,11 +790,12 @@ setima_dimensao <- dados_completos %>%
                                 pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
                                 pergunta_2 == 3 ~ "Neutro", 
                                 pergunta_2 == 9 ~ "N/a")) %>% 
-mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
-                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
+mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -792,6 +805,7 @@ mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo",
 
 
 ```
+
 
 ```{r}
 
@@ -813,11 +827,12 @@ oitava_dimensao <- dados_completos %>%
                                 pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
-  mutate(pergunta_4 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
-                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
-                                pergunta_3 == 3 ~ "Neutro", 
-                                pergunta_3 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -851,6 +866,7 @@ mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo",
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -881,11 +897,12 @@ decima_dimensao <- dados_completos %>%
                                 pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
                                 pergunta_3 == 3 ~ "Neutro", 
                                 pergunta_3 == 9 ~ "N/a")) %>% 
-  mutate(pergunta_4 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
-                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
-                                pergunta_3 == 3 ~ "Neutro", 
-                                pergunta_3 == 9 ~ "N/a")) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
   pivot_longer(cols = starts_with("pergunta"), names_to = "dimensao_1") %>% 
+  filter(value != "N/a") %>% 
   group_by(value) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
@@ -895,6 +912,7 @@ decima_dimensao <- dados_completos %>%
 
 
 ```
+
 
 
 ```{r}
@@ -927,9 +945,9 @@ reactable(
     value = colDef(name = "Dimensão", minWidth = 550, align = "left"),
     pct = colDef(name = "Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
                  style = function(value) {
-      if (value < 0.30) {
+      if (value < 0.45) {
         color <- "#e00000"
-      } else if (value > 0.7) {
+      } else if (value > 0.75) {
         color <- "#008000"
       } else {
         color <- "black"
@@ -946,10 +964,10 @@ reactable(
 
 ```
 
+
 **3. Cultura de Segurança do Paciente, Itens agrupados por dimensões**
 
 ## 1 - Apoio do Supervisor, gestor ou liderança clínica para a segurança do paciente
-
 
 
 ```{r}
@@ -966,7 +984,7 @@ grafico_1 <- dados_completos %>%
   group_by(pergunta_1) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)*100) %>% 
-  mutate(pct = round(pct, 0)) %>% 
+  mutate(pct = round(pct, 1)) %>% 
   ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
   geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
   coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
@@ -999,7 +1017,7 @@ grafico_2 <- dados_completos %>%
   group_by(pergunta_1) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)*100) %>% 
-  mutate(pct = round(pct, 0)) %>% 
+  mutate(pct = round(pct, 1)) %>% 
   ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
   geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
   coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
@@ -1031,7 +1049,7 @@ grafico_3 <- dados_completos %>%
   group_by(pergunta_1) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)*100) %>% 
-  mutate(pct = round(pct, 0)) %>% 
+  mutate(pct = round(pct, 1)) %>% 
   ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
   geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
   coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
@@ -1047,6 +1065,1043 @@ grafico_3 <- dados_completos %>%
 
 
 ```
+
+
+## 2 - Trabalho em Equipe
+
+```{r}
+
+grafico_4 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_trabalhamos_juntos_como_uma_equipe_integrada) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_4.png", plot = grafico_4, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+```{r}
+
+
+grafico_5 <- dados_completos %>% 
+  rename(pergunta_2 =  durante_periodos_de_sobrecarga_de_trabalho_os_profissionais_desta_unidade_ajudam_uns_aos_outros) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_5.png", plot = grafico_5, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+
+```
+
+
+```{r}
+
+
+grafico_6 <- dados_completos %>% 
+  rename(pergunta_3 = ha_problema_com_comportamento_desrespeitoso_por_parte_daqueles_que_trabalham_nesta_unidade) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_6.png", plot = grafico_6, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+## 3 - Abertura para a Comunicação
+
+
+```{r}
+
+grafico_7 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_os_profissionais_se_falam_abertamente_quando_veem_algo_que_pode_afetar_negativamente_o_cuidado_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_7.png", plot = grafico_7, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+```{r}
+
+
+grafico_8 <- dados_completos %>% 
+  rename(pergunta_2 =  quando_os_profissionais_desta_unidade_veem_alguem_com_mais_autoridade_fazendo_algo_inseguro_para_os_pacientes_eles_falam_abertamente) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_8.png", plot = grafico_8, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+```{r}
+
+grafico_9 <- dados_completos %>% 
+  rename(pergunta_1 = quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_9.png", plot = grafico_9, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo
+
+
+
+
+```{r}
+
+grafico_9_1 <- dados_completos %>% 
+  rename(pergunta_4 = nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo) %>% 
+  select(pergunta_4) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
+  select(pergunta_4) %>% 
+  filter(pergunta_4 != "N/a") %>% 
+  group_by(pergunta_4) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_4)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("rafico_9_1.png", plot = grafico_9_1, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+
+
+
+
+
+## 4.  Notificação de Eventos de Segurança do Paciente
+
+  
+```{r}
+
+
+grafico_dez <- dados_completos %>% 
+  rename(pergunta_1 = quando_um_incidente_e_detectado_e_corrigido_antes_de_atingir_o_paciente_com_que_frequencia_ele_e_notificado) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dez.png", plot = grafico_dez, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+
+
+
+```
+
+
+
+
+```{r}
+
+grafico_onze <- dados_completos %>% 
+  rename(pergunta_2 = quando_um_incidente_atinge_o_paciente_e_poderia_ter_lhe_causado_dano_mas_nao_lhe_causou_com_que_frequencia_ele_e_notificado) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_onze.png", plot = grafico_onze, width = 8, height = 6, units = "in", dpi = 300) 
+
+```
+
+
+
+## 5. Aprendizado Organizacional e Melhoria Contínua
+
+
+
+```{r}
+
+grafico_doze <- dados_completos %>% 
+  rename(pergunta_1 = esta_unidade_revisa_regularmente_os_processos_de_trabalho_para_determinar_se_sao_necessarias_mudancas_para_melhorar_a) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_doze.png", plot = grafico_doze, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+
+
+```{r}
+
+grafico_treze <- dados_completos %>% 
+  rename(pergunta_2 = nesta_unidade_as_mudancas_para_melhorar_a_seguranca_do_paciente_sao_avaliadas_para_verificar_se_elas_estao_funcionando_bem) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_treze.png", plot = grafico_treze, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+```{r}
+
+
+grafico_catorze <- dados_completos %>% 
+  rename(pergunta_3 = esta_unidade_permite_que_os_mesmos_continuem_ocorrendo_problemas_de_seguranca_do_paciente) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_catorze.png", plot = grafico_catorze, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+
+## 6. Comunicação sobre Erro 
+
+
+```{r}
+
+grafico_quinze <- dados_completos %>% 
+  rename(pergunta_1 =  somos_informados_sobre_os_erros_incidentes_de_seguranca_que_acontecem_nesta_unidade) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_quinze.png", plot = grafico_quinze, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+```{r}
+
+grafico_dezesseis <- dados_completos %>% 
+  rename(pergunta_2 = quando_acontecem_erros_incidentes_de_seguranca_nessa_unidade_discutimos_maneiras_de_evitar_que_voltem_a_acontecer) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dezesseis.png", plot = grafico_dezesseis, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+```{r}
+
+
+grafico_dezessete <- dados_completos %>% 
+  rename(pergunta_3 = nesta_unidade_somos_informados_sobre_as_mudancas_realizadas_com_base_nos_relatorios_de_notificacao_de_incidentes) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Positivo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Negativo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dezessete.png", plot = grafico_dezessete, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+## 7. Suporte da Administração do Hospital a Segurança do Paciente
+
+
+```{r}
+
+
+grafico_dezesseis <- dados_completos %>% 
+  rename(pergunta_1 =  as_acoes_da_gestao_do_hospital_demonstram_que_a_seguranca_do_paciente_tem_alta_prioridade) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dezesseis.png", plot = grafico_dezesseis, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+
+```
+
+
+
+
+```{r}
+
+grafico_dezoito <- dados_completos %>% 
+  rename(pergunta_2 = a_gestao_do_hospital_fornece_recursos_adequados_para_melhorar_a_seguranca_do_paciente) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Negativo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dezoito.png", plot = grafico_dezoito, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+```{r}
+
+
+grafico_dezenove <- dados_completos %>% 
+  rename(pergunta_3 = a_gestao_do_hospital_parece_ter_interesse_na_seguranca_do_paciente_somente_apos_a_ocorrencia_de_um_evento_adverso) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_dezenove.png", plot = grafico_dezenove, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+## 8. Resposta ao Erro
+
+
+```{r}
+
+
+grafico_vinte <- dados_completos %>% 
+  rename(pergunta_1 =  quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte.png", plot = grafico_vinte, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+
+```
+
+
+```{r}
+
+grafico_vinte_um <- dados_completos %>% 
+  rename(pergunta_2 = nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_um.png", plot = grafico_vinte_um, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+```{r}
+
+
+grafico_vinte_dois <- dados_completos %>% 
+  rename(pergunta_3 = quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_dois.png", plot = grafico_vinte_dois, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+```{r}
+
+grafico_vinte_tres <- dados_completos %>% 
+  rename(pergunta_4 = nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente) %>% 
+  select(pergunta_4) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
+  filter(pergunta_4 != "N/a") %>% 
+  group_by(pergunta_4) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_4)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_tres.png", plot = grafico_vinte_tres, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+## 9. Transferências e Trocas de Informação
+
+          
+          
+```{r}
+
+grafico_vinte_quatro <- dados_completos %>% 
+  rename(pergunta_1 =  durante_as_mudancas_de_turno_plantao_ha_tempo_suficiente_para_trocar_todas_as_informacoes_importantes_para_o_cuidado_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_quatro.png", plot = grafico_vinte_quatro, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+```{r}
+
+grafico_vinte_cinco <- dados_completos %>% 
+  rename(pergunta_2 = quando_pacientes_sao_transferidos_de_uma_unidade_para_outra_informacoes_importantes_sobre_o_seu_cuidado_sao_frequentemente_perdidas) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_cinco.png", plot = grafico_vinte_cinco, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+```{r}
+
+
+grafico_vinte_seis <- dados_completos %>% 
+  rename(pergunta_3 = durante_as_mudancas_de_turno_plantao_informacoes_importantes_sobre_o_cuidado_do_paciente_frequentemente_sao_omitidas) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_seis.png", plot = grafico_vinte_seis, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+## 10. Pessoal e Ritmo de Trabalho
+
+
+```{r}
+
+
+grafico_vinte_sete <- dados_completos %>% 
+  rename(pergunta_1 =  nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_1)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_sete.png", plot = grafico_vinte_sete, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+
+```{r}
+
+grafico_vinte_oito <- dados_completos %>% 
+  rename(pergunta_2 = os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente) %>%  
+  select(pergunta_2) %>% 
+  mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
+                                pergunta_2 == 1 | pergunta_2 == 2  ~ "Positivo", 
+                                pergunta_2 == 3 ~ "Neutro", 
+                                pergunta_2 == 9 ~ "N/a")) %>% 
+filter(pergunta_2 != "N/a") %>% 
+  group_by(pergunta_2) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_2)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_oito.png", plot = grafico_vinte_oito, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+
+```{r}
+
+
+grafico_vinte_nove <- dados_completos %>% 
+  rename(pergunta_3 = esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario) %>% 
+  select(pergunta_3) %>% 
+  mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
+                                pergunta_3 == 1 | pergunta_3 == 2  ~ "Positivo", 
+                                pergunta_3 == 3 ~ "Neutro", 
+                                pergunta_3 == 9 ~ "N/a")) %>% 
+  filter(pergunta_3 != "N/a") %>% 
+  group_by(pergunta_3) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_3)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_vinte_nove.png", plot = grafico_vinte_nove, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+
+```{r}
+
+grafico_trinta <- dados_completos %>% 
+  rename(pergunta_4 = o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente) %>% 
+  select(pergunta_4) %>% 
+  mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
+                                pergunta_4 == 1 | pergunta_4 == 2  ~ "Positivo", 
+                                pergunta_4 == 3 ~ "Neutro", 
+                                pergunta_4 == 9 ~ "N/a")) %>% 
+  filter(pergunta_4 != "N/a") %>% 
+  group_by(pergunta_4) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  mutate(pct = round(pct, 1)) %>% 
+  ggplot(aes(x = "", y = pct, fill = pergunta_4)) +
+  geom_bar(width = 0.1, stat = "identity") +  # width = 1 para preencher completamente as barras
+  coord_flip() +  # Inverte eixo x e y para criar um gráfico de barras horizontais
+  scale_fill_manual(values = c("Positivo" = "#68bd58", "Negativo" = "#c21f40", "Neutro" = "#f0a830")) +  # Define as cores para cada categoria
+  theme_void() +  # Remove todos os elementos de tema padrão
+  labs(x = NULL, y = NULL, fill = NULL) +
+  geom_text(aes(label = paste0(pct, "%")), position = position_stack(vjust = 0.5), color = "white", size = 4.5) +# Remove rótulos de eixos e legenda de cores +
+  theme(
+  legend.position = "none"
+)
+  
+ ggsave("grafico_trinta.png", plot = grafico_trinta, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+```{r}
+
+dados_completos %>% 
+  rename(comentarios = por_favor_sinta_se_a_vontade_para_fazer_comentarios_sobre_como_as_coisas_sao_feitas_ou_como_poderiam_ser_feitas_no_seu_hospital_que_podem_afetar_a_seguranca_do_paciente) %>% 
+  select(comentarios) %>% 
+  filter(comentarios != "." & comentarios != ".." & comentarios != "..." & comentarios != "-") %>% 
+  reactable(
+    outlined = TRUE, 
+    fullWidth = FALSE,
+    bordered = FALSE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2")
+    ),
+    columns = list(
+    comentarios = colDef(name = "Comentários", minWidth = 900, align = "left")
+    ))
+
+  
+
+
+```
+
+
+
+
+
+
+
+
 
 
 
