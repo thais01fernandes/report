@@ -162,6 +162,7 @@ tabela_cargo <- dados_respondentes %>%
   group_by(cargo) %>% 
   tally() %>% 
   mutate(cargo = replace_na(cargo, "Outros")) %>% 
+  mutate(cargo = case_when(n == 106 ~ "Outros", TRUE ~ (cargo))) %>% 
   mutate(pct = n/sum(n)) %>% 
   arrange(-n)
 
@@ -198,7 +199,184 @@ tabela_completa_2 %>%
     defaultColDef = colDef(
       headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )), 
       columns = list(
-      cargo = colDef(name = "Serviço", minWidth = 350, align = "left"),
+      cargo = colDef(name = "Profissão", minWidth = 350, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
+    ), rowStyle = row_style
+  )
+
+```
+
+
+Tabela anexo outros cargos
+
+```{r echo=FALSE}
+
+tabela_cargo_outros <- dados_respondentes %>%  
+  mutate(outro_cargo = case_when(outro_cargo == "Auxiliar de serviços Gerais" ~ "Auxiliar de serviços gerais", 
+                                 outro_cargo == "Auxiliar de Serviços Gerais" ~ "Auxiliar de serviços gerais",
+                                 outro_cargo == "Aux ser gerais" ~ "Auxiliar de serviços gerais",
+                                 outro_cargo == "Bombeiro Civil" ~ "Bombeiro",
+                                 outro_cargo == "Copeira" ~ "Copa", 
+                                 outro_cargo == "Copeiro" ~ "Copa",
+                                 outro_cargo == "Camareira" ~ "Camareiro",
+                                 outro_cargo == "Cuidadora de Idosos" ~ "Cuidador",
+                                 outro_cargo == "Cuidador de idosos" ~ "Cuidador",
+                                 outro_cargo == "Cuidadora de idoso" ~ "Cuidador",
+                                 outro_cargo == "cuidadora de idosos" ~ "Cuidador",
+                                 outro_cargo == "Cuidador de idoso" ~ "Cuidador",
+                                 outro_cargo == "Cuidadora de idosos" ~ "Cuidador",
+                                 outro_cargo == "Cuidadora de idosos" ~ "Cuidador",
+                                 outro_cargo == "Cuidadora" ~ "Cuidador",
+                                 outro_cargo == "Líder de Cuidador" ~ "Líder de cuidadores",
+                                 outro_cargo == "Auxiliar de farmácia" ~ "Auxiliar de Farmácia",
+                                 outro_cargo == "cozinheiro" ~ "Cozinheiro",
+                                 outro_cargo == "cozinheiro" ~ "Cozinheiro",
+                                 outro_cargo == "Auxiliar geral" ~ "Auxiliar de serviços gerais",
+                                 outro_cargo == "analista de atendimento ao cliente senior" ~ "Analista de atendimento ao cliente senior", TRUE ~ (outro_cargo))) %>% 
+  group_by(outro_cargo) %>% 
+  filter(!is.na(outro_cargo)) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n)
+
+
+total_n <- sum(tabela_cargo_outros$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  outro_cargo = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+tabela_completa_2 <- bind_rows(tabela_cargo_outros, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_2)) {
+    list(
+      backgroundColor = "#ebf1f2", 
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_2 %>% 
+  reactable(
+    outlined = TRUE, 
+    fullWidth = FALSE,
+    bordered = FALSE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )), 
+      columns = list(
+      outro_cargo = colDef(name = "Profissão", minWidth = 350, align = "left"),
+      n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
+      pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
+    ), rowStyle = row_style
+  )
+
+```
+
+
+Tabela anexo outros serviços
+
+```{r echo=FALSE}
+
+tabela_area_outros <- dados_respondentes %>%  
+  mutate(outra_area = case_when(outra_area == "Copeira" ~ "Copa", 
+                                outra_area == "Copeiro" ~ "Copa",
+                                outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidadora" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidador de idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidadora de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidador de idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidadores de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidados a idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidados ao idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "cuidadora de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidados com os idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidados de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidando com idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "Idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Copeira" ~ "Copa",
+                                outra_area == "Higienização de ambientes" ~ "Limpeza",
+                                outra_area == "Redecial de idosos" ~ "Residencial de idosos",
+                                outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
+                                outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
+                                outra_area == "Residencial Israelita Albert Einstein" ~ "Residencial Albert Einstein",
+                                outra_area == "RIAE" ~ "Residencial Albert Einstein",
+                                outra_area == "Unidade vila Mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Unidade vila mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Comunidade israelita Albert Einstein, vila Mariana-SP." ~ "Unidade Vila Mariana",
+                                outra_area == "Vila Mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Residencial." ~ "Residencial",
+                                outra_area == "Cuidar d idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidadora de idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "Cuidado de geriatria" ~ "Cuidado ao Idoso",
+                                outra_area == "Instituição de longe permanência" ~ "Longa permanência",
+                                outra_area == "Residencial longa permanência" ~ "Longa permanência",
+                                outra_area == "Instituição de longe permanência" ~ "Longa permanência",
+                                outra_area == "Residencial Einstein - Vila Mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Residencial idosos moradia permanente" ~ "Longa permanência",
+                                outra_area == "RIAE - Vila Mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Residencial para idosos/ geriatria" ~ "Cuidado ao Idoso",
+                                outra_area == "Idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Geriatria" ~ "Cuidado ao Idoso",
+                                outra_area == "Assistencial- cuidado ao idoso" ~ "Cuidado ao Idoso",
+                                outra_area == "cozinha" ~ "Cozinha",
+                                outra_area == "Residencial" ~ "Residencial Albert Einstein",
+                                outra_area == "Residencial Vila Mariana" ~ "Unidade Vila Mariana",
+                                outra_area == "Residencial Albert Einstein RIAE" ~ "Residencial Albert Einstein",
+                                outra_area == "Residencial  de idosos"  ~ "Residencial de idosos",
+                                outra_area == "Residencial para idosos/ geriatria"  ~ "Residencial de idosos",
+                                outra_area == "Alimentação/cozinha"  ~ "Cozinha",
+                                 outra_area == "Cozinha , nutrição"  ~ "Cozinha",
+                                TRUE ~ (outra_area))) %>% 
+  group_by(outra_area) %>% 
+  filter(!is.na(outra_area)) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  arrange(-n) 
+
+
+total_n <- sum(tabela_area_outros$n)
+total_pct <- 1
+
+
+linha_total <- tibble(
+  outra_area = "Total",
+  n = total_n,
+  pct = total_pct
+)
+
+tabela_completa_2 <- bind_rows(tabela_area_outros, linha_total)
+
+row_style <- function(index) {
+  if (index == nrow(tabela_completa_2)) {
+    list(
+      backgroundColor = "#ebf1f2", 
+      fontWeight = "bold")
+  } else {
+    NULL
+  }
+}
+
+tabela_completa_2 %>% 
+  reactable(
+    outlined = TRUE, 
+    fullWidth = FALSE,
+    bordered = FALSE,
+    striped = FALSE,
+    pagination = FALSE, # Desativa a paginação
+    defaultColDef = colDef(
+      headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )), 
+      columns = list(
+      outra_area = colDef(name = "Serviço", minWidth = 350, align = "left"),
       n = colDef(name = "Quantidade", minWidth = 150, align = "center"), 
       pct = colDef(name = "Porcentagem", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center")
     ), rowStyle = row_style
@@ -567,7 +745,11 @@ tabela_completa_8  %>%
 ```
 
 
+
+
 Tabela 10 - Porcentagem de respostas por dimensão
+
+
 
 
 ```{r}
@@ -634,7 +816,6 @@ segunda_dimensao <- dados_completos %>%
 
 
 ```
-
 
 
 
@@ -945,12 +1126,12 @@ reactable(
     value = colDef(name = "Dimensão", minWidth = 550, align = "left"),
     pct = colDef(name = "Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
                  style = function(value) {
-      if (value < 0.45) {
+      if (value < 0.50) {
         color <- "#e00000"
       } else if (value > 0.75) {
         color <- "#008000"
       } else {
-        color <- "black"
+        color <- "#b8af03"
       }
       list(color = color)
     }
@@ -1067,6 +1248,99 @@ grafico_3 <- dados_completos %>%
 ```
 
 
+Tabela geral, dimensão 1
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_considera_seriamente_as_sugestoes_dos_profissionais_para_melhorar_a_seguranca_do_paciente) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Meu supervisor, gerente ou chefe de equipe/clínica considera seriamente as sugestões dos profissionais para melhorar a segurança do paciente")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_quer_que_trabalhemos_mais_rapido_nos_horarios_de_demanda_intensa_de_trabalho_mesmo_que_isso_implique_em_pular_etapas) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Meu supervisor, gerente ou chefe de equipe/clínica quer que trabalhemos mais rápido nos horários de demanda intensa de trabalho, mesmo que isso implique em “pular etapas”"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = meu_supervisor_gerente_ou_chefe_de_equipe_clinica_adota_medidas_para_resolver_as_questoes_de_seguranca_do_paciente_que_lhe_sao_apresentadas) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Meu supervisor, gerente ou chefe de equipe/clínica adota medidas para resolver as questões de segurança do paciente que lhe são apresentadas"))  %>% 
+  select(-n)
+
+
+tabela_primeira_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_primeira_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+
+
+```
+
+
+
+
 ## 2 - Trabalho em Equipe
 
 ```{r}
@@ -1162,6 +1436,99 @@ grafico_6 <- dados_completos %>%
 )
   
  ggsave("grafico_6.png", plot = grafico_6, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+Tabela geral, dimensão 2
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_trabalhamos_juntos_como_uma_equipe_integrada) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Nesta unidade, trabalhamos juntos como uma equipe integrada")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 =  durante_periodos_de_sobrecarga_de_trabalho_os_profissionais_desta_unidade_ajudam_uns_aos_outros) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Durante períodos de sobrecarga de trabalho, os profissionais desta unidade ajudam uns aos outros"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = ha_problema_com_comportamento_desrespeitoso_por_parte_daqueles_que_trabalham_nesta_unidade) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Há problema com comportamento desrespeitoso por parte daqueles que trabalham nesta unidade"))  %>% 
+  select(-n)
+
+
+tabela_segunda_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_segunda_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
 
 
 
@@ -1269,7 +1636,7 @@ grafico_9 <- dados_completos %>%
 
 ```
 
-nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo
+
 
 
 
@@ -1308,7 +1675,119 @@ grafico_9_1 <- dados_completos %>%
 
 
 
+Tabela geral, dimensão 3
 
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_os_profissionais_se_falam_abertamente_quando_veem_algo_que_pode_afetar_negativamente_o_cuidado_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Nesta unidade, os profissionais se falam abertamente quando veem algo que pode afetar negativamente o cuidado do paciente ")) %>% 
+  select(-n)
+
+##
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 =  quando_os_profissionais_desta_unidade_veem_alguem_com_mais_autoridade_fazendo_algo_inseguro_para_os_pacientes_eles_falam_abertamente) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Quando os profissionais desta unidade veem alguém com mais autoridade fazendo algo inseguro para os pacientes, eles falam abertamente"))  %>% 
+  select(-n)
+
+##
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = quando_os_profissionais_desta_unidade_se_manifestam_as_pessoas_com_mais_autoridade_estao_abertas_as_suas_preocupacoes_em_relacao_a_seguranca_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Quando os profissionais desta unidade se manifestam, as pessoas com mais autoridade estão abertas às suas preocupações em relação à segurança do paciente"))  %>% 
+  select(-n)
+
+##
+
+pergunta_4 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_os_profissionais_tem_receio_de_fazer_perguntas_quando_algo_nao_lhes_parece_certo) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "4.  Nesta unidade, os profissionais têm receio de fazer perguntas, quando algo não lhes parece certo"))  %>% 
+  select(-n)
+
+tabela_terceira_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+  pergunta_4,
+) 
+
+
+reactable(
+  tabela_terceira_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+
+
+```
 
 
 
@@ -1384,6 +1863,85 @@ filter(pergunta_2 != "N/a") %>%
 
 ```
 
+
+
+Tabela geral, dimensão 4
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 = quando_um_incidente_e_detectado_e_corrigido_antes_de_atingir_o_paciente_com_que_frequencia_ele_e_notificado) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Quando um incidente é detectado e corrigido antes de atingir o paciente, com que frequência ele é notificado?")) %>% 
+  select(-n)
+
+##
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = quando_um_incidente_atinge_o_paciente_e_poderia_ter_lhe_causado_dano_mas_nao_lhe_causou_com_que_frequencia_ele_e_notificado) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Quando um incidente atinge o paciente e poderia ter lhe causado dano, mas não lhe causou, com que frequência ele é notificado?"))  %>% 
+  select(-n)
+
+
+
+tabela_terceira_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+
+) 
+
+
+reactable(
+  tabela_terceira_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+
+
+```
 
 
 ## 5. Aprendizado Organizacional e Melhoria Contínua
@@ -1491,6 +2049,96 @@ grafico_catorze <- dados_completos %>%
 ```
 
 
+Tabela geral, dimensão 5
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 = esta_unidade_revisa_regularmente_os_processos_de_trabalho_para_determinar_se_sao_necessarias_mudancas_para_melhorar_a) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Esta unidade revisa regularmente os processos de trabalho, para determinar se são necessárias mudanças para melhorar a segurança do paciente")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_as_mudancas_para_melhorar_a_seguranca_do_paciente_sao_avaliadas_para_verificar_se_elas_estao_funcionando_bem) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Nesta unidade, as mudanças para melhorar a segurança do paciente são avaliadas para verificar se elas estão funcionando bem"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = esta_unidade_permite_que_os_mesmos_continuem_ocorrendo_problemas_de_seguranca_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Esta unidade permite que os mesmos problemas de segurança do paciente continuem ocorrendo"))  %>% 
+  select(-n)
+
+
+tabela_segunda_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_segunda_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+
+
+```
 
 
 ## 6. Comunicação sobre Erro 
@@ -1588,6 +2236,98 @@ grafico_dezessete <- dados_completos %>%
 )
   
  ggsave("grafico_dezessete.png", plot = grafico_dezessete, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+Tabela geral, dimensão 6
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 =  somos_informados_sobre_os_erros_incidentes_de_seguranca_que_acontecem_nesta_unidade) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))   %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Somos informados sobre os erros/incidentes de segurança que acontecem nesta unidade")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = quando_acontecem_erros_incidentes_de_seguranca_nessa_unidade_discutimos_maneiras_de_evitar_que_voltem_a_acontecer) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Quando acontecem erros/incidentes de segurança nessa unidade, discutimos maneiras de evitar que voltem a acontecer"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_somos_informados_sobre_as_mudancas_realizadas_com_base_nos_relatorios_de_notificacao_de_incidentes) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Nesta unidade, somos informados sobre as mudanças realizadas com base nos relatórios de notificação de incidentes"))  %>% 
+  select(-n)
+
+
+tabela_segunda_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_segunda_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
 
 
 
@@ -1693,6 +2433,99 @@ grafico_dezenove <- dados_completos %>%
 )
   
  ggsave("grafico_dezenove.png", plot = grafico_dezenove, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+
+```
+
+
+
+Tabela geral, dimensão 7
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 =  as_acoes_da_gestao_do_hospital_demonstram_que_a_seguranca_do_paciente_tem_alta_prioridade) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))   %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. As ações da gestão do hospital demonstram que a segurança do paciente tem alta prioridade")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = a_gestao_do_hospital_fornece_recursos_adequados_para_melhorar_a_seguranca_do_paciente) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. A gestão do hospital fornece recursos adequados para melhorar a segurança do paciente"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = a_gestao_do_hospital_parece_ter_interesse_na_seguranca_do_paciente_somente_apos_a_ocorrencia_de_um_evento_adverso) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. A gestão do hospital parece ter interesse na segurança do paciente somente após a ocorrência de um evento adverso"))  %>% 
+  select(-n)
+
+
+tabela_segunda_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_segunda_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
 
 
 
@@ -1832,6 +2665,120 @@ grafico_vinte_tres <- dados_completos %>%
 
 
 
+
+Tabela geral, dimensão 8
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 =  quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Quando os profissionais cometem erros, esta unidade se concentra no aprendizado, ao invés de culpar os indivíduos")) %>% 
+  select(-n)
+
+##
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Nesta unidade, os profissionais sentem que seus erros/falhas podem ser usados contra eles"))  %>% 
+  select(-n)
+
+##
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Quando um incidente é notificado nesta unidade, a impressão que se tem é que a pessoa está sendo notificada e não o problema"))  %>% 
+  select(-n)
+
+##
+
+pergunta_4 <- dados_completos %>% 
+  rename(pergunta_1 = nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "4.  Nesta unidade, falta apoio aos profissionais envolvidos em erros/falhas que comprometem a segurança do paciente"))  %>% 
+  select(-n)
+
+tabela_terceira_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+  pergunta_4,
+) 
+
+
+reactable(
+  tabela_terceira_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
+
+
+```
+
+
 ## 9. Transferências e Trocas de Informação
 
           
@@ -1929,6 +2876,98 @@ grafico_vinte_seis <- dados_completos %>%
 )
   
  ggsave("grafico_vinte_seis.png", plot = grafico_vinte_seis, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+Tabela geral, dimensão 9
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 =  durante_as_mudancas_de_turno_plantao_ha_tempo_suficiente_para_trocar_todas_as_informacoes_importantes_para_o_cuidado_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))%>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Durante as mudanças de turno/plantão, há tempo suficiente para trocar todas as informações importantes para o cuidado do paciente ")) %>% 
+  select(-n)
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = quando_pacientes_sao_transferidos_de_uma_unidade_para_outra_informacoes_importantes_sobre_o_seu_cuidado_sao_frequentemente_perdidas) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Quando pacientes são transferidos de uma unidade para outra, informações importantes sobre o seu cuidado são frequentemente perdidas"))  %>% 
+  select(-n)
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = durante_as_mudancas_de_turno_plantao_informacoes_importantes_sobre_o_cuidado_do_paciente_frequentemente_sao_omitidas) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Durante as mudanças de turno/plantão, informações importantes sobre o cuidado do paciente frequentemente são omitidas"))  %>% 
+  select(-n)
+
+
+tabela_segunda_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+) 
+
+
+reactable(
+  tabela_segunda_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
 
 
 ```
@@ -2065,6 +3104,120 @@ grafico_trinta <- dados_completos %>%
 )
   
  ggsave("grafico_trinta.png", plot = grafico_trinta, width = 8, height = 6, units = "in", dpi = 300) 
+
+
+```
+
+
+
+Tabela geral, dimensão 10
+
+
+```{r}
+
+pergunta_1 <- dados_completos %>% 
+  rename(pergunta_1 =  nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Negativo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  select(pergunta_1) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "1. Nesta unidade, temos profissionais suficientes para lidar com a carga de trabalho")) %>% 
+  select(-n)
+
+##
+
+pergunta_2 <- dados_completos %>% 
+  rename(pergunta_1 = os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente) %>%  
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+ filter(pergunta_1 == "Positivo") %>%  
+   mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "2. Os profissionais desta unidade trabalham mais horas do que seria o desejável para prestar o melhor cuidado ao paciente"))  %>% 
+  select(-n)
+
+##
+
+
+pergunta_3 <- dados_completos %>% 
+  rename(pergunta_1 = esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))  %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "3. Esta unidade depende demasiado de profissionais com contrato terceirizado ou contratado por qualquer outro regime temporário"))  %>% 
+  select(-n)
+
+##
+
+pergunta_4 <-dados_completos %>% 
+  rename(pergunta_1 = o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente) %>% 
+  select(pergunta_1) %>% 
+  mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Negativo", 
+                                pergunta_1 == 1 | pergunta_1 == 2  ~ "Positivo", 
+                                pergunta_1 == 3 ~ "Neutro", 
+                                pergunta_1 == 9 ~ "N/a")) %>% 
+  filter(pergunta_1 != "N/a") %>% 
+  group_by(pergunta_1) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  filter(pergunta_1 == "Positivo") %>%  
+  mutate(pergunta_1 = case_when(pergunta_1 == "Positivo" ~ "4.  O ritmo de trabalho nesta unidade é tão intenso que afeta negativamente a segurança do paciente"))  %>% 
+  select(-n)
+
+tabela_terceira_dimensao <- bind_rows(
+  pergunta_1,
+  pergunta_2, 
+  pergunta_3, 
+  pergunta_4,
+) 
+
+
+reactable(
+  tabela_terceira_dimensao,
+  outlined = TRUE, 
+  fullWidth = FALSE,
+  bordered = FALSE,
+  striped = FALSE,
+  pagination = FALSE, # Desativa a paginação
+  defaultColDef = colDef(
+    headerStyle = list(borderWidth = 3, backgroundColor = "#ebf1f2" )
+  ),
+  columns = list(
+    pergunta_1 = colDef(name = "Perguntas", minWidth = 550, align = "left"),
+    pct = colDef(name = "% de Respostas Positivas", format = colFormat(percent = TRUE, digits = 1), minWidth = 150, align = "center", 
+                 style = function(value) {
+      if (value < 0.50) {
+        color <- "#e00000"
+      } else if (value > 0.75) {
+        color <- "#008000"
+      } else {
+        color <- "#b8af03"
+      }
+      list(color = color)
+    }
+  )
+))
+
+
 
 
 ```
