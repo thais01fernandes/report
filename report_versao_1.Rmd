@@ -81,11 +81,11 @@ library("reactable")
 
 ```{r include=FALSE}
 
-dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3) %>% 
+dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 6) %>% 
   janitor::clean_names()
 
 
-dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2) 
+dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 5) 
 
 
 ```
@@ -214,9 +214,27 @@ Tabela anexo outros cargos
 
 tabela_cargo_outros <- dados_respondentes %>%  
   mutate(outro_cargo = case_when(outro_cargo == "Auxiliar de serviços Gerais" ~ "Auxiliar de serviços gerais", 
-                                 outro_cargo == "Auxiliar de Serviços Gerais" ~ "Auxiliar de serviços gerais",
+                                 outro_cargo == "Auxiliar de nutrição" ~ "Auxiliar de Nutrição",
+                                 outro_cargo == "Auxiliar de cozinha" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de copa" ~ "Auxiliar de copa e cozinha",
                                  outro_cargo == "Aux ser gerais" ~ "Auxiliar de serviços gerais",
                                  outro_cargo == "Bombeiro Civil" ~ "Bombeiro",
+                                 outro_cargo == "Higienização" ~ "Higiene",
+                                 outro_cargo == "Auxiliar de nutrição" ~ "Auxiliar de Nutrição",
+                                 outro_cargo == "AUXILIAR COZINHA" ~ "Auxiliar de cozinha",
+                                 outro_cargo == "Auxiliar administrativo" ~ "Auxiliar Administrativo",
+                                 outro_cargo == "Aux administrativo" ~ "Auxiliar Administrativo",
+                                 outro_cargo == "Administrativo/escritório" ~ "Administrativo",
+                                 outro_cargo == "Higenizacao" ~ "Higiene",
+                                 outro_cargo == "Auxiliar de copa e cozinha." ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Farmacia" ~ "Farmácia",
+                                 outro_cargo == "Copa" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha,, nutrição" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha,, nutrição" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar lavandeira" ~ "Auxiliar de lavandeira",
+                                 outro_cargo == "Jovem aprendiz." ~ "Jovem Aprendiz",
+                                 outro_cargo == "Motorista" ~ "Condutor",
                                  outro_cargo == "Copeira" ~ "Copa", 
                                  outro_cargo == "Copeiro" ~ "Copa",
                                  outro_cargo == "Camareira" ~ "Camareiro",
@@ -288,8 +306,18 @@ Tabela anexo outros serviços
 
 tabela_area_outros <- dados_respondentes %>%  
   mutate(outra_area = case_when(outra_area == "Copeira" ~ "Copa", 
+                                outra_area == "Área de apoio, farmácia" ~ "Farmácia", 
                                 outra_area == "Copeiro" ~ "Copa",
+                                outra_area == "Saude mental" ~ "Saúde mental",
+                                outra_area == "Unidade Saúde Mental Adulto" ~ "Saúde mental",
                                 outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Lavandeira" ~ "Lavanderia",
+                                outra_area == "Diagnostico" ~ "Setor de Diagnóstico",
+                                outra_area == "Setor de diagnóstico" ~ "Setor de Diagnóstico",
+                                outra_area == "Diagnóstico pôr imagem" ~ "Diagnóstico por imagem",
+                                outra_area == "Setor Emergência" ~ "Urgência e emergência",
+                                outra_area == "rede de urgência e emergência (UPA e SAMU)" ~ "Urgência e emergência",
+                                outra_area == "Setor de diagnóstico por imagem. Onde também vamos em outras unidades realizar exames.ex: RX de tórax leito em unidade clínica" ~ "Diagnóstico por imagem",
                                 outra_area == "Cuidadora" ~ "Cuidado ao Idoso",
                                 outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
                                 outra_area == "Cuidador de idoso" ~ "Cuidado ao Idoso",
@@ -304,7 +332,8 @@ tabela_area_outros <- dados_respondentes %>%
                                 outra_area == "Cuidando com idoso" ~ "Cuidado ao Idoso",
                                 outra_area == "Idosos" ~ "Cuidado ao Idoso",
                                 outra_area == "Copeira" ~ "Copa",
-                                outra_area == "Higienização de ambientes" ~ "Limpeza",
+                                outra_area == "Higienização de ambientes" ~ "Higiene",
+                                outra_area == "Limpeza" ~ "Higiene",
                                 outra_area == "Redecial de idosos" ~ "Residencial de idosos",
                                 outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
                                 outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
@@ -335,7 +364,8 @@ tabela_area_outros <- dados_respondentes %>%
                                 outra_area == "Residencial  de idosos"  ~ "Residencial de idosos",
                                 outra_area == "Residencial para idosos/ geriatria"  ~ "Residencial de idosos",
                                 outra_area == "Alimentação/cozinha"  ~ "Cozinha",
-                                 outra_area == "Cozinha , nutrição"  ~ "Cozinha",
+                                outra_area == "Cozinha , nutrição"  ~ "Cozinha",
+                                outra_area == "Central de diluição de  medicamentos"  ~ "Central de diluição de medicamentos",
                                 TRUE ~ (outra_area))) %>% 
   group_by(outra_area) %>% 
   filter(!is.na(outra_area)) %>% 
