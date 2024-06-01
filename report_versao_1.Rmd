@@ -81,11 +81,11 @@ library("reactable")
 
 ```{r include=FALSE}
 
-dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3) %>% 
+dados_respondentes <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2) %>% 
   janitor::clean_names()
 
 
-dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2) 
+dados_completos <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3) 
 
 
 ```
@@ -214,9 +214,49 @@ Tabela anexo outros cargos
 
 tabela_cargo_outros <- dados_respondentes %>%  
   mutate(outro_cargo = case_when(outro_cargo == "Auxiliar de serviços Gerais" ~ "Auxiliar de serviços gerais", 
-                                 outro_cargo == "Auxiliar de Serviços Gerais" ~ "Auxiliar de serviços gerais",
+                                 outro_cargo == "Auxiliar de nutrição" ~ "Auxiliar de Nutrição",
+                                 outro_cargo == "Recepcionista" ~ "Recepção",
+                                 outro_cargo == "Portaria (segurança)" ~ "Portaria",
+                                 outro_cargo == "Recepção internação" ~ "Recepção de internação",
+                                 outro_cargo == "Recepcionista internação" ~ "Recepção de internação",
+                                 outro_cargo == "Recepcionista pronto socorro" ~ "Recepção Pronto socorro",
+                                 outro_cargo == "jovem aprendiz" ~ "Jovem aprendiz",
+                                 outro_cargo == "Assistente administrativo" ~ "Assistente Administrativo",
+                                 outro_cargo == "assistente administrativo" ~ "Assistente Administrativo",
+                                 outro_cargo == "Auxiliar de cozinha" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de copa" ~ "Auxiliar de copa e cozinha",
                                  outro_cargo == "Aux ser gerais" ~ "Auxiliar de serviços gerais",
                                  outro_cargo == "Bombeiro Civil" ~ "Bombeiro",
+                                 outro_cargo == "Técnico farmácia" ~ "Técnico de farmácia",
+                                 outro_cargo == "RECEPCIONISTA" ~ "Recepção",
+                                 outro_cargo == "Biomédica" ~ "Biomédico",
+                                 outro_cargo == "RECEPÇÃO" ~ "Recepção",
+                                 outro_cargo == "Faturista" ~ "Faturamento",
+                                 outro_cargo == "faturamento" ~ "Faturamento",
+                                 outro_cargo == "Administrativo Plano" ~ "Administrativo Plano de Saúde",
+                                 outro_cargo == "Analista de Faturamento" ~ "Auxiliar de faturamento",
+                                 outro_cargo == "Emissão de guias" ~ "Emissão de guias / setor administrativo",
+                                 outro_cargo == "Emissão de  guias / setor administrativo" ~ "Emissão de guias / setor administrativo",
+                                 outro_cargo == "t.i" ~ "TI",
+                                 outro_cargo == "Analista de faturamento" ~ "Analista de Faturamento",
+                                 outro_cargo == "Higienização" ~ "Higiene",
+                                 outro_cargo == "Aux faturamento" ~ "Auxiliar de faturamento",
+                                 outro_cargo == "Auxiliar de nutrição" ~ "Auxiliar de Nutrição",
+                                 outro_cargo == "AUXILIAR COZINHA" ~ "Auxiliar de cozinha",
+                                 outro_cargo == "Auxiliar administrativo" ~ "Auxiliar Administrativo",
+                                 outro_cargo == "auxiliar administrativo" ~ "Auxiliar Administrativo",
+                                 outro_cargo == "Aux administrativo" ~ "Auxiliar Administrativo",
+                                 outro_cargo == "Administrativo/escritório" ~ "Administrativo",
+                                 outro_cargo == "Higenizacao" ~ "Higiene",
+                                 outro_cargo == "Auxiliar de copa e cozinha." ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Farmacia" ~ "Farmácia",
+                                 outro_cargo == "Copa" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha,, nutrição" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha,, nutrição" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar de cozinha" ~ "Auxiliar de copa e cozinha",
+                                 outro_cargo == "Auxiliar lavandeira" ~ "Auxiliar de lavandeira",
+                                 outro_cargo == "Jovem aprendiz." ~ "Jovem Aprendiz",
+                                 outro_cargo == "Motorista" ~ "Condutor",
                                  outro_cargo == "Copeira" ~ "Copa", 
                                  outro_cargo == "Copeiro" ~ "Copa",
                                  outro_cargo == "Camareira" ~ "Camareiro",
@@ -232,6 +272,7 @@ tabela_cargo_outros <- dados_respondentes %>%
                                  outro_cargo == "Auxiliar de farmácia" ~ "Auxiliar de Farmácia",
                                  outro_cargo == "cozinheiro" ~ "Cozinheiro",
                                  outro_cargo == "cozinheiro" ~ "Cozinheiro",
+                                 outro_cargo == "SEGURANÇA" ~ "Segurança",
                                  outro_cargo == "Auxiliar geral" ~ "Auxiliar de serviços gerais",
                                  outro_cargo == "analista de atendimento ao cliente senior" ~ "Analista de atendimento ao cliente senior", TRUE ~ (outro_cargo))) %>% 
   group_by(outro_cargo) %>% 
@@ -288,8 +329,35 @@ Tabela anexo outros serviços
 
 tabela_area_outros <- dados_respondentes %>%  
   mutate(outra_area = case_when(outra_area == "Copeira" ~ "Copa", 
+                                outra_area == "Abrir ficha para o paciente passar com o médico" ~ "Recepção",
+                                outra_area == "Atendimento no balcão, fazer internação, recepcionar o paciente" ~ "Recepção",
+                                outra_area == "laboratório" ~ "Laboratório",
+                                outra_area == "Higiêne" ~ "Higiene",
+                                outra_area == "Hijiene." ~ "Higiene",
+                                outra_area == "Faturista" ~ "Faturamento",
+                                outra_area == "Pronto socorro" ~ "Pronto Socorro",
+                                outra_area == "PS" ~ "Pronto Socorro",
+                                outra_area == "Ps" ~ "Pronto Socorro",
+                                outra_area == "uti a" ~ "UTI",
+                                outra_area == "Uti" ~ "UTI",
+                                outra_area == "RECEPÇÃO" ~ "Recepção",
+                                outra_area == "Internacao" ~ "Internação",
+                                outra_area == "Área de apoio, farmácia" ~ "Farmácia", 
+                                outra_area == "Recepção, auxiliar de sala" ~ "Recepção/auxiliar de sala/ultrassom", 
+                                outra_area == "Uti neonatal" ~ "Uti neo e centro obstétrico",
                                 outra_area == "Copeiro" ~ "Copa",
+                                outra_area == "Centro de diagnóstico de imagem" ~ "Centro de Diagnóstico por Imagem",
+                                outra_area == "Saude mental" ~ "Saúde mental",
+                                outra_area == "Diagnóstico por imagens" ~ "Centro de Diagnóstico por Imagem",
+                                outra_area == "Unidade Saúde Mental Adulto" ~ "Saúde mental",
                                 outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
+                                outra_area == "Lavandeira" ~ "Lavanderia",
+                                outra_area == "Diagnostico" ~ "Setor de Diagnóstico",
+                                outra_area == "Setor de diagnóstico" ~ "Setor de Diagnóstico",
+                                outra_area == "Diagnóstico pôr imagem" ~ "Diagnóstico por imagem",
+                                outra_area == "Setor Emergência" ~ "Urgência e emergência",
+                                outra_area == "rede de urgência e emergência (UPA e SAMU)" ~ "Urgência e emergência",
+                                outra_area == "Setor de diagnóstico por imagem. Onde também vamos em outras unidades realizar exames.ex: RX de tórax leito em unidade clínica" ~ "Diagnóstico por imagem",
                                 outra_area == "Cuidadora" ~ "Cuidado ao Idoso",
                                 outra_area == "Cuidador de idosos" ~ "Cuidado ao Idoso",
                                 outra_area == "Cuidador de idoso" ~ "Cuidado ao Idoso",
@@ -304,7 +372,8 @@ tabela_area_outros <- dados_respondentes %>%
                                 outra_area == "Cuidando com idoso" ~ "Cuidado ao Idoso",
                                 outra_area == "Idosos" ~ "Cuidado ao Idoso",
                                 outra_area == "Copeira" ~ "Copa",
-                                outra_area == "Higienização de ambientes" ~ "Limpeza",
+                                outra_area == "Higienização de ambientes" ~ "Higiene",
+                                outra_area == "Limpeza" ~ "Higiene",
                                 outra_area == "Redecial de idosos" ~ "Residencial de idosos",
                                 outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
                                 outra_area == "Residencial Einstein" ~ "Residencial Albert Einstein",
@@ -335,13 +404,15 @@ tabela_area_outros <- dados_respondentes %>%
                                 outra_area == "Residencial  de idosos"  ~ "Residencial de idosos",
                                 outra_area == "Residencial para idosos/ geriatria"  ~ "Residencial de idosos",
                                 outra_area == "Alimentação/cozinha"  ~ "Cozinha",
-                                 outra_area == "Cozinha , nutrição"  ~ "Cozinha",
+                                outra_area == "Cozinha , nutrição"  ~ "Cozinha",
+                                outra_area == "Central de diluição de  medicamentos"  ~ "Central de diluição de medicamentos",
                                 TRUE ~ (outra_area))) %>% 
   group_by(outra_area) %>% 
   filter(!is.na(outra_area)) %>% 
   tally() %>% 
   mutate(pct = n/sum(n)) %>% 
   arrange(-n) 
+
 
 
 total_n <- sum(tabela_area_outros$n)
@@ -2341,7 +2412,7 @@ reactable(
 ```{r}
 
 
-grafico_dezesseis <- dados_completos %>% 
+grafico_dezoito <- dados_completos %>% 
   rename(pergunta_1 =  as_acoes_da_gestao_do_hospital_demonstram_que_a_seguranca_do_paciente_tem_alta_prioridade) %>% 
   select(pergunta_1) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
@@ -2365,7 +2436,7 @@ grafico_dezesseis <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_dezesseis.png", plot = grafico_dezesseis, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_dezoito.png", plot = grafico_dezoito, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 
@@ -2377,7 +2448,7 @@ grafico_dezesseis <- dados_completos %>%
 
 ```{r}
 
-grafico_dezoito <- dados_completos %>% 
+grafico_dezenove <- dados_completos %>% 
   rename(pergunta_2 = a_gestao_do_hospital_fornece_recursos_adequados_para_melhorar_a_seguranca_do_paciente) %>%  
   select(pergunta_2) %>% 
   mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Positivo", 
@@ -2400,7 +2471,7 @@ filter(pergunta_2 != "N/a") %>%
   legend.position = "none"
 )
   
- ggsave("grafico_dezoito.png", plot = grafico_dezoito, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_dezenove.png", plot = grafico_dezenove, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -2409,7 +2480,7 @@ filter(pergunta_2 != "N/a") %>%
 ```{r}
 
 
-grafico_dezenove <- dados_completos %>% 
+grafico_vinte <- dados_completos %>% 
   rename(pergunta_3 = a_gestao_do_hospital_parece_ter_interesse_na_seguranca_do_paciente_somente_apos_a_ocorrencia_de_um_evento_adverso) %>% 
   select(pergunta_3) %>% 
   mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
@@ -2432,7 +2503,7 @@ grafico_dezenove <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_dezenove.png", plot = grafico_dezenove, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte.png", plot = grafico_vinte, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 
@@ -2538,7 +2609,7 @@ reactable(
 ```{r}
 
 
-grafico_vinte <- dados_completos %>% 
+grafico_vinte_um <- dados_completos %>% 
   rename(pergunta_1 =  quando_os_profissionais_cometem_erros_esta_unidade_se_concentra_no_aprendizado_ao_inves_de_culpar_os_individuos) %>% 
   select(pergunta_1) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
@@ -2562,7 +2633,7 @@ grafico_vinte <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte.png", plot = grafico_vinte, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_um.png", plot = grafico_vinte_um, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 
@@ -2572,7 +2643,7 @@ grafico_vinte <- dados_completos %>%
 
 ```{r}
 
-grafico_vinte_um <- dados_completos %>% 
+grafico_vinte_dois <- dados_completos %>% 
   rename(pergunta_2 = nesta_unidade_os_profissionais_sentem_que_seus_erros_falhas_podem_ser_usados_contra_eles) %>%  
   select(pergunta_2) %>% 
   mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
@@ -2595,7 +2666,7 @@ filter(pergunta_2 != "N/a") %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_um.png", plot = grafico_vinte_um, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_dois.png", plot = grafico_vinte_dois, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -2604,7 +2675,7 @@ filter(pergunta_2 != "N/a") %>%
 ```{r}
 
 
-grafico_vinte_dois <- dados_completos %>% 
+grafico_vinte_tres <- dados_completos %>% 
   rename(pergunta_3 = quando_um_incidente_e_notificado_nesta_unidade_a_impressao_que_se_tem_e_que_a_pessoa_esta_sendo_notificada_e_nao_o_problema) %>% 
   select(pergunta_3) %>% 
   mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
@@ -2627,7 +2698,7 @@ grafico_vinte_dois <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_dois.png", plot = grafico_vinte_dois, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_tres.png", plot = grafico_vinte_tres, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -2635,7 +2706,7 @@ grafico_vinte_dois <- dados_completos %>%
 
 ```{r}
 
-grafico_vinte_tres <- dados_completos %>% 
+grafico_vinte_quatro <- dados_completos %>% 
   rename(pergunta_4 = nesta_unidade_falta_apoio_aos_profissionais_envolvidos_em_erros_falhas_que_comprometem_a_seguranca_do_paciente) %>% 
   select(pergunta_4) %>% 
   mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
@@ -2658,7 +2729,7 @@ grafico_vinte_tres <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_tres.png", plot = grafico_vinte_tres, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_quatro.png", plot = grafico_vinte_quatro, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -2785,7 +2856,7 @@ reactable(
           
 ```{r}
 
-grafico_vinte_quatro <- dados_completos %>% 
+grafico_vinte_cinco <- dados_completos %>% 
   rename(pergunta_1 =  durante_as_mudancas_de_turno_plantao_ha_tempo_suficiente_para_trocar_todas_as_informacoes_importantes_para_o_cuidado_do_paciente) %>% 
   select(pergunta_1) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
@@ -2809,7 +2880,7 @@ grafico_vinte_quatro <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_quatro.png", plot = grafico_vinte_quatro, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_cinco.png", plot = grafico_vinte_cinco, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 
@@ -2819,7 +2890,7 @@ grafico_vinte_quatro <- dados_completos %>%
 
 ```{r}
 
-grafico_vinte_cinco <- dados_completos %>% 
+grafico_vinte_seis <- dados_completos %>% 
   rename(pergunta_2 = quando_pacientes_sao_transferidos_de_uma_unidade_para_outra_informacoes_importantes_sobre_o_seu_cuidado_sao_frequentemente_perdidas) %>%  
   select(pergunta_2) %>% 
   mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
@@ -2842,7 +2913,7 @@ filter(pergunta_2 != "N/a") %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_cinco.png", plot = grafico_vinte_cinco, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_seis.png", plot = grafico_vinte_seis, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 
@@ -2852,7 +2923,7 @@ filter(pergunta_2 != "N/a") %>%
 ```{r}
 
 
-grafico_vinte_seis <- dados_completos %>% 
+grafico_vinte_sete <- dados_completos %>% 
   rename(pergunta_3 = durante_as_mudancas_de_turno_plantao_informacoes_importantes_sobre_o_cuidado_do_paciente_frequentemente_sao_omitidas) %>% 
   select(pergunta_3) %>% 
   mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
@@ -2875,7 +2946,7 @@ grafico_vinte_seis <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_seis.png", plot = grafico_vinte_seis, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_sete.png", plot = grafico_vinte_sete, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -2979,7 +3050,7 @@ reactable(
 ```{r}
 
 
-grafico_vinte_sete <- dados_completos %>% 
+grafico_vinte_oito <- dados_completos %>% 
   rename(pergunta_1 =  nesta_unidade_temos_profissionais_suficientes_para_lidar_com_a_carga_de_trabalho) %>% 
   select(pergunta_1) %>% 
   mutate(pergunta_1 = case_when(pergunta_1 == 4 | pergunta_1 == 5 ~ "Positivo", 
@@ -3003,7 +3074,7 @@ grafico_vinte_sete <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_sete.png", plot = grafico_vinte_sete, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_oito.png", plot = grafico_vinte_oito, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -3013,7 +3084,7 @@ grafico_vinte_sete <- dados_completos %>%
 
 ```{r}
 
-grafico_vinte_oito <- dados_completos %>% 
+grafico_vinte_nove <- dados_completos %>% 
   rename(pergunta_2 = os_profissionais_desta_unidade_trabalham_mais_horas_do_que_seria_o_desejavel_para_prestar_o_melhor_cuidado_ao_paciente) %>%  
   select(pergunta_2) %>% 
   mutate(pergunta_2 = case_when(pergunta_2 == 4 | pergunta_2 == 5 ~ "Negativo", 
@@ -3036,7 +3107,7 @@ filter(pergunta_2 != "N/a") %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_oito.png", plot = grafico_vinte_oito, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_vinte_nove.png", plot = grafico_vinte_nove, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -3047,7 +3118,7 @@ filter(pergunta_2 != "N/a") %>%
 ```{r}
 
 
-grafico_vinte_nove <- dados_completos %>% 
+grafico_trinta <- dados_completos %>% 
   rename(pergunta_3 = esta_unidade_depende_demasiado_de_profissionais_com_contrato_terceirizado_ou_contratado_por_qualquer_outro_regime_temporario) %>% 
   select(pergunta_3) %>% 
   mutate(pergunta_3 = case_when(pergunta_3 == 4 | pergunta_3 == 5 ~ "Negativo", 
@@ -3070,7 +3141,7 @@ grafico_vinte_nove <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_vinte_nove.png", plot = grafico_vinte_nove, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_trinta.png", plot = grafico_trinta, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
@@ -3080,7 +3151,7 @@ grafico_vinte_nove <- dados_completos %>%
 
 ```{r}
 
-grafico_trinta <- dados_completos %>% 
+grafico_trinta_um <- dados_completos %>% 
   rename(pergunta_4 = o_ritmo_de_trabalho_nesta_unidade_e_tao_intenso_que_afeta_negativamente_a_seguranca_do_paciente) %>% 
   select(pergunta_4) %>% 
   mutate(pergunta_4 = case_when(pergunta_4 == 4 | pergunta_4 == 5 ~ "Negativo", 
@@ -3103,7 +3174,7 @@ grafico_trinta <- dados_completos %>%
   legend.position = "none"
 )
   
- ggsave("grafico_trinta.png", plot = grafico_trinta, width = 8, height = 6, units = "in", dpi = 300) 
+ ggsave("grafico_trinta_um.png", plot = grafico_trinta_um, width = 8, height = 6, units = "in", dpi = 300) 
 
 
 ```
