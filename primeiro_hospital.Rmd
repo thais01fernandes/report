@@ -20,10 +20,10 @@ library("readxl")
 library('googlesheets4')
 library("janitor")
 library ("abjData")
-library("geobr")
 library("dplyr")
 library("tidyr")
 library("purrr")
+
 
 
 ```
@@ -33,7 +33,7 @@ library("purrr")
 ```{r}
 
 gs4_deauth()
-dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 1) 
+dados <- read_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=605599166", sheet = 1) 
 
 ```
 
@@ -57,10 +57,11 @@ dados_respondentes <- dados %>%  select(-2:-6) %>%
   mutate(area = gsub("\\bNA\\b", "", area)) %>% 
   mutate(cargo = gsub("\\bNA\\b", "", cargo)) %>% 
   mutate_all(trimws) %>% 
-  select(-2, -3)
+  rename(outro_cargo = `Outro, por favor especifique:`, 
+         outra_area = `Outro, por favor, especifique:`)
 
 dados_respondentes %>% 
-   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3)
+   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit?pli=1#gid=0", sheet = 2)
   
 
 dados_respondentes_1 <- dados_respondentes %>% 
@@ -217,7 +218,7 @@ mutate(normalmente_quantas_horas_por_semana_voce_trabalha_neste_hospital =
 
 dados_respondentes_1 %>% 
   left_join(dados_2, by = c("id")) %>% 
-   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 2)
+   write_sheet(ss = "https://docs.google.com/spreadsheets/d/1Zydeu1lZf6rzGeZ3byB_I23TFw9FPqZHn3yYI0LIP_E/edit#gid=0", sheet = 3)
 
 ```
 
